@@ -2258,9 +2258,12 @@ void ItemPickup_Update(Item* this) {
                     this->unk_50 = 60.0f;
 
                     gLaserStrength[this->playerNum]++;
-                    if (gLaserStrength[this->playerNum] > LASERS_NOVA) {
-                        gLaserStrength[this->playerNum] = LASERS_NOVA;
+                    if (gLaserStrength[this->playerNum] > LASERS_UPGRADABLE &&
+                        CVarGetInteger("gToggleUpgradableLasers", 0) == 1) {
+                        gLaserStrength[this->playerNum] = LASERS_UPGRADABLE;
                         gAdditionalLaserUps++;
+                    } else if (gLaserStrength[this->playerNum] > LASERS_HYPER) {
+                        gLaserStrength[this->playerNum] = LASERS_HYPER;
                     }
 
                     Object_PlayerSfx(gPlayer[this->playerNum].sfxSource, NA_SE_TWIN_LASER_GET, this->playerNum);

@@ -730,8 +730,9 @@ void DrawCheatsMenu() {
         UIWidgets::CVarCheckbox("Invincible", "gInvincible");
         UIWidgets::CVarCheckbox("Unbreakable Wings", "gUnbreakableWings");
         UIWidgets::CVarCheckbox("Infinite Bombs", "gInfiniteBombs");
+        UIWidgets::CVarCheckbox("Increased Bomb Cap", "gIncreasedBombCap", { .tooltip = "Changes the bomb cap to be 99 instead of 9." });
         UIWidgets::CVarCheckbox("Infinite Boost/Brake", "gInfiniteBoost");
-        UIWidgets::CVarCheckbox("Nova Laser", "gNovaLaser");
+        UIWidgets::CVarCheckbox("Instant Upgradable Laser", "gUpgradableLaser");
         UIWidgets::CVarCheckbox("Overpowered Laser", "gOpLasers", { .tooltip = "Go crazy." });
         UIWidgets::CVarSliderInt("Laser Range Multiplier: %d%%", "gLaserRangeMult", 15, 800, 100,
             { .tooltip = "Changes how far your lasers fly." });
@@ -934,6 +935,10 @@ void DrawRandomizationMenu() {
             ImGui::EndMenu();
         }
         UIWidgets::CVarCheckbox("Randomize Items", "gItemRando");
+        UIWidgets::CVarCheckbox(
+            "Infinitely Upgradable Laser", "gToggleUpgradableLasers",
+            { .tooltip =
+                  "Makes laser upgrades useful even after you obtain hyper lasers by adding a new 'upgradable' laser type, which will have its damage output slightly increased for every additonal laser upgrade picked up. Every laser upgrade also very slightly increases the charge shot explosion radius." });
         ImGui::EndMenu();
     }
 

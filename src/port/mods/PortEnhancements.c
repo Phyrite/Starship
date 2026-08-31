@@ -130,14 +130,14 @@ void OnDisplayUpdatePost(IEvent* event) {
         if ((gGameState != GSTATE_PLAY) || (gPlayState <= PLAY_INIT)) {
             return;
         }
-        gBombCount[0] = 99;
+        gBombCount[0] = 9;
     }
 
-    if (CVarGetInteger("gNovaLaser", 0) == 1) {
+    if (CVarGetInteger("gUpgradableLaser", 0) == 1) {
         if ((gGameState != GSTATE_PLAY) || (gPlayState <= PLAY_INIT)) {
             return;
         }
-        gLaserStrength[0] = LASERS_NOVA;
+        gLaserStrength[0] = LASERS_UPGRADABLE;
     }
 
     if (CVarGetInteger("gOpLasers", 0) == 1) {

@@ -1168,7 +1168,7 @@ void Display_ArwingLaserCharge(Player* player) {
 
             case LASERS_TWIN:
             case LASERS_HYPER:
-            case LASERS_NOVA:
+            case LASERS_UPGRADABLE:
                 if (laserStrength == LASERS_TWIN) {
                     gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 192, 255, 192, 128);
                     gDPSetEnvColor(gMasterDisp++, 64, 255, 64, 128);
@@ -1182,8 +1182,8 @@ void Display_ArwingLaserCharge(Player* player) {
                     else
                         upgradeEffects = gAdditionalLaserUps * 10;
                     gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 180 + (upgradeEffects / 2),
-                                    64 + upgradeEffects, 255, 200);
-                    gDPSetEnvColor(gMasterDisp++, 120 + upgradeEffects, 0 + upgradeEffects * 2, 255, 200);
+                                    64 + upgradeEffects * 0.95, 255, 200);
+                    gDPSetEnvColor(gMasterDisp++, 120 + upgradeEffects, 0 + upgradeEffects * 1.9, 255, 200);
                 }
                 Matrix_MultVec3f(gCalcMatrix, &spAC, &sp94);
                 Matrix_MultVec3f(gCalcMatrix, &spA0, &sp88);

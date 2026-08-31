@@ -3189,7 +3189,7 @@ void Player_ArwingLaser(Player* player) {
             break;
         case LASERS_TWIN:
         case LASERS_HYPER:
-        case LASERS_NOVA:
+        case LASERS_UPGRADABLE:
             for (i = 0; i < ARRAY_COUNT(gPlayerShots) - 1; i++) {
                 if (gPlayerShots[i].obj.status == SHOT_FREE) {
                     Player_SetupArwingShot(player, &gPlayerShots[i], 0.0f, -10.0f, PLAYERSHOT_TWIN_LASER,

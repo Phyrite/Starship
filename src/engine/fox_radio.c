@@ -892,9 +892,11 @@ void Radio_Draw(void) {
 
         radioCharId = (s32) gRadioMsgRadioId;
 
-        if ((radioCharId == RCID_WOLF) || (radioCharId == RCID_PIGMA) || (radioCharId == RCID_LEON) ||
+        if (((radioCharId == RCID_WOLF) || (radioCharId == RCID_PIGMA) || (radioCharId == RCID_LEON) ||
             (radioCharId == RCID_ANDREW) || (radioCharId == RCID_WOLF_2) || (radioCharId == RCID_PIGMA_2) ||
-            (radioCharId == RCID_LEON_2) || (radioCharId == RCID_ANDREW_2)) {
+             (radioCharId == RCID_LEON_2) || (radioCharId == RCID_ANDREW_2)) &&
+                (gCurrentLevel == LEVEL_FORTUNA ||
+            gCurrentLevel == LEVEL_BOLSE || gCurrentLevel == LEVEL_VENOM_2)) {
             switch (radioCharId) {
                 case RCID_WOLF:
 

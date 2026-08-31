@@ -2608,13 +2608,14 @@ void Audio_PlaySequence(u8 seqPlayId, u16 seqId, u8 fadeinTime, u8 bgmParam) {
         seqId == NA_BGM_BOSS_BO || seqId == NA_BGM_BOSS_ZO || seqId == NA_BGM_BOSS_AQ || seqId == NA_BGM_BOSS_TI ||
         seqId == NA_BGM_BOSS_MA || seqId == NA_BGM_SELECT || seqId == NA_BGM_BOSS_A_CARRIER || seqId == NA_BGM_BOSS_ANDROSS || seqId == NA_BGM_ANDROSS_BRAIN ||
          seqId == NA_BGM_MAP || seqId == NA_BGM_COURSE_FAILURE || seqId == NA_BGM_COURSE_CLEAR ||
-         seqId == NA_BGM_REAL_BOSS || seqId == NA_BGM_STAFF_ROLL || seqId == NA_BGM_STAGE_WZ) &&
+         seqId == NA_BGM_REAL_BOSS || seqId == NA_BGM_STAFF_ROLL || seqId == NA_BGM_STAGE_WZ ||
+         seqId == NA_BGM_TRAINING) &&
         (CVarGetInteger("gMusicRando", 0) == 1)) {
         u16 stageIndex[] = { NA_BGM_STAGE_SO, NA_BGM_STAGE_CO, NA_BGM_STAGE_ME,  NA_BGM_STAGE_ZO,
                              NA_BGM_STAGE_AQ, NA_BGM_STAGE_KA, NA_BGM_STAGE_BO, NA_BGM_STAGE_VE1, NA_BGM_STAGE_SZ, NA_BGM_STAGE_SX, NA_BGM_STAGE_A6, NA_BGM_STAGE_TI,     NA_BGM_BOSS_CO,    NA_BGM_BOSS_A6,  NA_BGM_BOSS_SZ,
             NA_BGM_STARWOLF, NA_BGM_BOSS_ANDROSS, NA_BGM_STAFF_ROLL, NA_BGM_BATTLE,   NA_BGM_ANDROSS_BRAIN,
                              NA_BGM_MAP,          NA_BGM_BATTLE_LAST, NA_BGM_COURSE_CLEAR, NA_BGM_COURSE_FAILURE,
-                             NA_BGM_REAL_BOSS,    NA_BGM_STAGE_WZ
+                             NA_BGM_REAL_BOSS,    NA_BGM_STAGE_WZ,    NA_BGM_TRAINING
         };
         srand(time(NULL));
         int randSong = (int) (rand() % (sizeof(stageIndex) / sizeof(stageIndex[0])));
