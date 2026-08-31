@@ -16,6 +16,13 @@ s32 gPlayState;
 s32 D_ctx_80177868; // some sort of state. pause-related? Also used by game over
 LevelMode gLevelMode;
 DrawMode gDrawMode;
+s32 gAdditionalLaserUps;
+s32 gSavedShields;
+s32 gSavedRings;
+s32 gSavedWingHPLeft;
+s32 gSavedWingHPRight;
+s32 gSavedWingStateRight;
+s32 gSavedWingStateLeft;
 s32 gPlayerNum;
 s32 gCamCount;
 /**

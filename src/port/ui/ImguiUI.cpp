@@ -731,7 +731,8 @@ void DrawCheatsMenu() {
         UIWidgets::CVarCheckbox("Unbreakable Wings", "gUnbreakableWings");
         UIWidgets::CVarCheckbox("Infinite Bombs", "gInfiniteBombs");
         UIWidgets::CVarCheckbox("Infinite Boost/Brake", "gInfiniteBoost");
-        UIWidgets::CVarCheckbox("Hyper Laser", "gHyperLaser");
+        UIWidgets::CVarCheckbox("Nova Laser", "gNovaLaser");
+        UIWidgets::CVarCheckbox("Overpowered Laser", "gOpLasers", { .tooltip = "Go crazy." });
         UIWidgets::CVarSliderInt("Laser Range Multiplier: %d%%", "gLaserRangeMult", 15, 800, 100,
             { .tooltip = "Changes how far your lasers fly." });
         UIWidgets::CVarCheckbox("Rapid-fire mode", "gRapidFire", {
@@ -913,6 +914,31 @@ void DrawDebugMenu() {
     }
 }
 
+void DrawRandomizationMenu() {
+    if (UIWidgets::BeginMenu("Randomization")) {
+        UIWidgets::CVarCheckbox("Randomize Radio Dialogue", "gDialogueRando");
+        UIWidgets::CVarCheckbox("Randomize Radio Portraits", "gPortraitRando");
+        UIWidgets::CVarCheckbox("Randomize Music", "gMusicRando");
+        UIWidgets::Spacer(0);
+        if (UIWidgets::BeginMenu("Stage Settings")) {
+            UIWidgets::CVarCheckbox(
+                "Randomize Stages", "gStageRando",
+                { .tooltip =
+                      "Randomizes the order of levels/planets in the game. Area 6/Bolse and Venom are guarenteed to "
+                      "be the penultimate and final levels respectively." });
+            UIWidgets::CVarCheckbox("Avoid Repeat Stages", "gAvoidRepeats",
+                                    { .tooltip = "If randomize stages is enabled, the randomizer will "
+                                                 "avoid placing two of the same stages in the same run." });
+            UIWidgets::CVarCheckbox("Survival Mode", "gSurvival",
+                                    { .tooltip = "Turns the game into a test of your skills as a pilot of Star Fox. Your shields, wing damage, and gold rings are saved across levels, and just going down once will result in a game over." });
+            ImGui::EndMenu();
+        }
+        UIWidgets::CVarCheckbox("Randomize Items", "gItemRando");
+        ImGui::EndMenu();
+    }
+
+}
+
 void GameMenuBar::DrawElement() {
     if(ImGui::BeginMenuBar()){
         DrawMenuBarIcon();
@@ -936,6 +962,14 @@ void GameMenuBar::DrawElement() {
         ImGui::SetCursorPosY(0.0f);
 
         DrawDebugMenu();
+
+        ImGui::SetCursorPosY(0.0f);
+
+        ImGui::SetCursorPosY(0.0f);
+
+        DrawRandomizationMenu();
+
+        ImGui::SetCursorPosY(0.0f);
 
         ImGui::EndMenuBar();
     }

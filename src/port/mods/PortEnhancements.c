@@ -130,14 +130,21 @@ void OnDisplayUpdatePost(IEvent* event) {
         if ((gGameState != GSTATE_PLAY) || (gPlayState <= PLAY_INIT)) {
             return;
         }
-        gBombCount[0] = 9;
+        gBombCount[0] = 99;
     }
 
-    if (CVarGetInteger("gHyperLaser", 0) == 1) {
+    if (CVarGetInteger("gNovaLaser", 0) == 1) {
         if ((gGameState != GSTATE_PLAY) || (gPlayState <= PLAY_INIT)) {
             return;
         }
-        gLaserStrength[0] = LASERS_HYPER;
+        gLaserStrength[0] = LASERS_NOVA;
+    }
+
+    if (CVarGetInteger("gOpLasers", 0) == 1) {
+        if ((gGameState != GSTATE_PLAY) || (gPlayState <= PLAY_INIT)) {
+            return;
+        }
+        gAdditionalLaserUps = 900;
     }
 
     if (CVarGetInteger("gScoreEditor", 0) == 1) {
@@ -403,7 +410,23 @@ void OnPlayerShootChargedPre(PlayerActionPreShootChargedEvent* ev) {
         ev->player->shotTimer = 4;
     }
 }
-
+void OnItemSpawn(ItemDropEvent* event) {
+    if (CVarGetInteger("gItemRando", 0) == 1) {
+        if (event->item->obj.id != OBJ_ITEM_METEO_WARP && event->item->obj.id != OBJ_ITEM_CHECKPOINT &&
+            event->item->obj.id != OBJ_ITEM_PATH_SPLIT_X && event->item->obj.id != OBJ_ITEM_PATH_SPLIT_Y &&
+            event->item->obj.id != OBJ_ITEM_PATH_TURN_UP && event->item->obj.id != OBJ_ITEM_PATH_TURN_DOWN &&
+            event->item->obj.id != OBJ_ITEM_PATH_TURN_RIGHT && event->item->obj.id != OBJ_ITEM_PATH_TURN_LEFT &&
+            event->item->obj.id != OBJ_ITEM_RING_CHECK) {
+            u16 items[] = { OBJ_ITEM_LASERS,      OBJ_ITEM_LASERS,      OBJ_ITEM_SILVER_RING, OBJ_ITEM_SILVER_RING,
+                            OBJ_ITEM_SILVER_RING, OBJ_ITEM_SILVER_STAR, OBJ_ITEM_BOMB,        OBJ_ITEM_BOMB,
+                            OBJ_ITEM_1UP,         OBJ_ITEM_GOLD_RING,   OBJ_ITEM_GOLD_RING,   OBJ_ITEM_WING_REPAIR };
+            srand(time(NULL));
+            printf("Item with id %d spawned at %.2f, %.2f, %.2f\n", event->item->obj.id, event->item->obj.pos.x,
+                   event->item->obj.pos.y, event->item->obj.pos.z);
+            event->item->obj.id = items[RAND_INT(ARRAY_COUNT(items))];
+        }
+    }
+}
 void PortEnhancements_Init() {
     PortEnhancements_Register();
 
@@ -430,6 +453,7 @@ void PortEnhancements_Init() {
 
     // If we close the game while debug pause is active, we want it to be deactivated when we run again.
     CVarSetInteger("gDebugPause", 0);
+   REGISTER_LISTENER(ItemDropEvent, OnItemSpawn, EVENT_PRIORITY_NORMAL);
 }
 
 void PortEnhancements_Register() {
@@ -487,3 +511,4 @@ void PortEnhancements_Register() {
 void PortEnhancements_Exit() {
     // TODO: Unregister event listeners
 }
+

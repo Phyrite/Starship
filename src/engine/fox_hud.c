@@ -3453,8 +3453,8 @@ void HUD_BombCounter_Draw(f32 x, f32 y) {
     x = OTRGetDimensionFromRightEdgeOverride(x);
 
     // Max bombs
-    if (gBombCount[gPlayerNum] > 9) {
-        gBombCount[gPlayerNum] = 9;
+    if (gBombCount[gPlayerNum] > 99) {
+        gBombCount[gPlayerNum] = 99;
     }
 
     switch (sBombCounterState) {

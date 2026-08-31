@@ -55,11 +55,12 @@ s32 func_radio_800BA7BC(u16* msg, s32 priority) {
     }
 }
 
-void Radio_PlayMessage(u16* msg, RadioCharacterId character) {
+void Radio_PlayMessage(u16* msg, RadioCharacterId d) {
     TeamId teamId;
     s32 pad;
     s32 priority;
     msg = SEGMENTED_TO_VIRTUAL(msg);
+    
 
     switch (msg[0]) {
         default:
@@ -78,14 +79,14 @@ void Radio_PlayMessage(u16* msg, RadioCharacterId character) {
     }
 
     if (gGameState == GSTATE_PLAY) {
-        if ((character == RCID_FALCO) || (character == RCID_SLIPPY) || (character == RCID_PEPPY)) {
-            if (character == RCID_FALCO) {
+        if ((d == RCID_FALCO) || (d == RCID_SLIPPY) || (d == RCID_PEPPY)) {
+            if (d == RCID_FALCO) {
                 teamId = TEAM_ID_FALCO;
             }
-            if (character == RCID_SLIPPY) {
+            if (d == RCID_SLIPPY) {
                 teamId = TEAM_ID_SLIPPY;
             }
-            if (character == RCID_PEPPY) {
+            if (d == RCID_PEPPY) {
                 teamId = TEAM_ID_PEPPY;
             }
             if ((gTeamShields[teamId] <= 0) && (gTeamShields[teamId] != -2)) {
@@ -93,7 +94,136 @@ void Radio_PlayMessage(u16* msg, RadioCharacterId character) {
             }
         }
     }
-
+    srand(time(NULL));
+    RadioCharacterId character;
+    if (CVarGetInteger("gPortraitRando", 0) == 1) {
+        RadioCharacterId charIndex[] = { RCID_FALCO,         RCID_SLIPPY,       RCID_PEPPY,        RCID_FOX,
+                                         RCID_KATT,          RCID_ANDROSS,      RCID_JAMES,        RCID_GEN_PEPPER,
+                                         RCID_BOSS_CORNERIA, RCID_ROB64,        RCID_BOSS_METEO,   RCID_BOSS_CORNERIA2,
+                                         RCID_BOSS_AREA6,    RCID_BOSS_ZONESS,  RCID_BOSS_SECTORX, RCID_BOSS_SECTORY,
+                                         RCID_BILL,          RCID_CAIMAN_AREA6, RCID_BOSS_MACBETH, RCID_WOLF,
+                                         RCID_PIGMA,         RCID_LEON,         RCID_ANDREW,       RCID_FOX_EXPERT };
+        character = charIndex[RAND_INT(ARRAY_COUNT(charIndex))];
+    } else {
+         character = d;
+    }
+    if (CVarGetInteger("gDialogueRando", 0) == 1) {
+    u16* msgList[] = {
+        gMsg_ID_1,     gMsg_ID_60,    gMsg_ID_10,    gMsg_ID_20,    gMsg_ID_30,    gMsg_ID_40,    gMsg_ID_50,
+        gMsg_ID_1200,  gMsg_ID_1210,  gMsg_ID_1220,  gMsg_ID_1230,  gMsg_ID_1240,  gMsg_ID_1250,  gMsg_ID_1260,
+        gMsg_ID_1270,  gMsg_ID_1280,  gMsg_ID_1290,  gMsg_ID_1300,  gMsg_ID_1310,  gMsg_ID_1320,  gMsg_ID_1330,
+        gMsg_ID_1340,  gMsg_ID_1350,  gMsg_ID_1360,  gMsg_ID_1370,  gMsg_ID_1380,  gMsg_ID_1390,  gMsg_ID_1400,
+        gMsg_ID_1410,  gMsg_ID_1420,  gMsg_ID_1430,  gMsg_ID_1440,  gMsg_ID_1450,  gMsg_ID_1460,  gMsg_ID_1470,
+        gMsg_ID_2005,  gMsg_ID_2010,  gMsg_ID_2020,  gMsg_ID_2030,  gMsg_ID_2040,  gMsg_ID_2050,  gMsg_ID_2055,
+        gMsg_ID_2058,  gMsg_ID_2061,  gMsg_ID_2062,  gMsg_ID_2080,  gMsg_ID_2090,  gMsg_ID_2095,  gMsg_ID_2110,
+        gMsg_ID_2115,  gMsg_ID_2118,  gMsg_ID_2140,  gMsg_ID_2165,  gMsg_ID_2166,  gMsg_ID_2167,  gMsg_ID_2180,
+        gMsg_ID_2181,  gMsg_ID_2185,  gMsg_ID_2188,  gMsg_ID_2200,  gMsg_ID_2210,  gMsg_ID_2220,  gMsg_ID_2225,
+        gMsg_ID_2230,  gMsg_ID_2233,  gMsg_ID_2282,  gMsg_ID_2240,  gMsg_ID_2250,  gMsg_ID_2260,  gMsg_ID_2263,
+        gMsg_ID_2265,  gMsg_ID_2270,  gMsg_ID_2275,  gMsg_ID_2280,  gMsg_ID_2290,  gMsg_ID_2291,  gMsg_ID_2292,
+        gMsg_ID_2293,  gMsg_ID_2294,  gMsg_ID_2295,  gMsg_ID_2296,  gMsg_ID_2298,  gMsg_ID_2299,  gMsg_ID_2300,
+        gMsg_ID_2305,  gMsg_ID_2310,  gMsg_ID_2320,  gMsg_ID_2335,  gMsg_ID_2336,  gMsg_ID_2337,  gMsg_ID_3005,
+        gMsg_ID_3010,  gMsg_ID_3015,  gMsg_ID_3020,  gMsg_ID_3025,  gMsg_ID_3026,  gMsg_ID_3040,  gMsg_ID_3041,
+        gMsg_ID_3042,  gMsg_ID_3050,  gMsg_ID_3100,  gMsg_ID_3110,  gMsg_ID_3120,  gMsg_ID_3300,  gMsg_ID_3310,
+        gMsg_ID_3315,  gMsg_ID_3320,  gMsg_ID_3321,  gMsg_ID_3322,  gMsg_ID_3330,  gMsg_ID_3340,  gMsg_ID_3345,
+        gMsg_ID_3350,  gMsg_ID_3360,  gMsg_ID_3370,  gMsg_ID_3371,  gMsg_ID_4010,  gMsg_ID_4011,  gMsg_ID_4012,
+        gMsg_ID_4013,  gMsg_ID_4020,  gMsg_ID_4021,  gMsg_ID_4022,  gMsg_ID_4023,  gMsg_ID_4024,  gMsg_ID_4030,
+        gMsg_ID_4031,  gMsg_ID_4040,  gMsg_ID_4050,  gMsg_ID_4075,  gMsg_ID_4080,  gMsg_ID_4082,  gMsg_ID_4083,
+        gMsg_ID_4091,  gMsg_ID_4092,  gMsg_ID_4093,  gMsg_ID_4094,  gMsg_ID_4095,  gMsg_ID_4096,  gMsg_ID_4097,
+        gMsg_ID_4098,  gMsg_ID_4099,  gMsg_ID_4100,  gMsg_ID_4101,  gMsg_ID_4102,  gMsg_ID_4103,  gMsg_ID_4110,
+        gMsg_ID_4111,  gMsg_ID_4112,  gMsg_ID_4113,  gMsg_ID_5000,  gMsg_ID_5010,  gMsg_ID_5060,  gMsg_ID_5080,
+        gMsg_ID_5100,  gMsg_ID_5110,  gMsg_ID_5130,  gMsg_ID_5220,  gMsg_ID_5230,  gMsg_ID_5300,  gMsg_ID_5310,
+        gMsg_ID_5311,  gMsg_ID_5312,  gMsg_ID_5313,  gMsg_ID_5314,  gMsg_ID_5350,  gMsg_ID_5360,  gMsg_ID_5380,
+        gMsg_ID_5400,  gMsg_ID_5410,  gMsg_ID_5420,  gMsg_ID_5430,  gMsg_ID_5460,  gMsg_ID_5470,  gMsg_ID_5473,
+        gMsg_ID_5474,  gMsg_ID_5475,  gMsg_ID_5492,  gMsg_ID_5493,  gMsg_ID_5494,  gMsg_ID_5495,  gMsg_ID_5496,
+        gMsg_ID_5497,  gMsg_ID_5498,  gMsg_ID_5499,  gMsg_ID_5500,  gMsg_ID_5501,  gMsg_ID_5502,  gMsg_ID_5503,
+        gMsg_ID_5504,  gMsg_ID_5505,  gMsg_ID_5506,  gMsg_ID_6010,  gMsg_ID_6011,  gMsg_ID_6012,  gMsg_ID_6013,
+        gMsg_ID_6014,  gMsg_ID_6020,  gMsg_ID_6021,  gMsg_ID_6024,  gMsg_ID_6025,  gMsg_ID_6026,  gMsg_ID_6027,
+        gMsg_ID_6028,  gMsg_ID_6029,  gMsg_ID_6036,  gMsg_ID_6038,  gMsg_ID_6041,  gMsg_ID_6042,  gMsg_ID_6045,
+        gMsg_ID_6050,  gMsg_ID_6051,  gMsg_ID_6055,  gMsg_ID_6066,  gMsg_ID_6067,  gMsg_ID_6068,  gMsg_ID_6069,
+        gMsg_ID_6071,  gMsg_ID_6072,  gMsg_ID_6073,  gMsg_ID_6074,  gMsg_ID_6075,  gMsg_ID_6076,  gMsg_ID_6077,
+        gMsg_ID_6078,  gMsg_ID_6079,  gMsg_ID_6080,  gMsg_ID_6081,  gMsg_ID_6082,  gMsg_ID_6090,  gMsg_ID_6100,
+        gMsg_ID_6101,  gMsg_ID_7005,  gMsg_ID_7006,  gMsg_ID_7011,  gMsg_ID_7012,  gMsg_ID_7013,  gMsg_ID_7014,
+        gMsg_ID_7020,  gMsg_ID_7043,  gMsg_ID_7050,  gMsg_ID_7051,  gMsg_ID_7052,  gMsg_ID_7053,  gMsg_ID_7054,
+        gMsg_ID_7061,  gMsg_ID_7064,  gMsg_ID_7065,  gMsg_ID_7066,  gMsg_ID_7070,  gMsg_ID_7083,  gMsg_ID_7084,
+        gMsg_ID_7085,  gMsg_ID_7086,  gMsg_ID_7087,  gMsg_ID_7093,  gMsg_ID_7094,  gMsg_ID_7095,  gMsg_ID_7096,
+        gMsg_ID_7097,  gMsg_ID_7098,  gMsg_ID_7099,  gMsg_ID_7100,  gMsg_ID_8010,  gMsg_ID_8020,  gMsg_ID_8030,
+        gMsg_ID_8040,  gMsg_ID_8045,  gMsg_ID_8050,  gMsg_ID_8060,  gMsg_ID_8070,  gMsg_ID_8080,  gMsg_ID_8100,
+        gMsg_ID_8110,  gMsg_ID_8120,  gMsg_ID_8130,  gMsg_ID_8140,  gMsg_ID_8205,  gMsg_ID_8210,  gMsg_ID_8215,
+        gMsg_ID_8220,  gMsg_ID_8230,  gMsg_ID_8240,  gMsg_ID_8250,  gMsg_ID_8255,  gMsg_ID_8260,  gMsg_ID_8265,
+        gMsg_ID_8300,  gMsg_ID_8310,  gMsg_ID_8320,  gMsg_ID_9000,  gMsg_ID_9010,  gMsg_ID_9100,  gMsg_ID_9110,
+        gMsg_ID_9120,  gMsg_ID_9130,  gMsg_ID_9140,  gMsg_ID_9150,  gMsg_ID_9151,  gMsg_ID_9152,  gMsg_ID_9153,
+        gMsg_ID_9160,  gMsg_ID_9170,  gMsg_ID_9180,  gMsg_ID_9190,  gMsg_ID_9200,  gMsg_ID_9210,  gMsg_ID_9211,
+        gMsg_ID_9212,  gMsg_ID_9213,  gMsg_ID_9220,  gMsg_ID_9230,  gMsg_ID_9240,  gMsg_ID_9250,  gMsg_ID_9260,
+        gMsg_ID_9270,  gMsg_ID_9275,  gMsg_ID_9280,  gMsg_ID_9285,  gMsg_ID_9289,  gMsg_ID_9290,  gMsg_ID_9300,
+        gMsg_ID_9310,  gMsg_ID_9320,  gMsg_ID_9322,  gMsg_ID_9323,  gMsg_ID_9324,  gMsg_ID_9325,  gMsg_ID_9330,
+        gMsg_ID_9340,  gMsg_ID_9350,  gMsg_ID_9360,  gMsg_ID_9365,  gMsg_ID_9366,  gMsg_ID_9367,  gMsg_ID_9368,
+        gMsg_ID_9369,  gMsg_ID_9375,  gMsg_ID_9380,  gMsg_ID_9385,  gMsg_ID_9390,  gMsg_ID_9395,  gMsg_ID_9400,
+        gMsg_ID_9405,  gMsg_ID_9411,  gMsg_ID_9420,  gMsg_ID_9425,  gMsg_ID_9426,  gMsg_ID_9427,  gMsg_ID_9428,
+        gMsg_ID_9429,  gMsg_ID_9430,  gMsg_ID_9431,  gMsg_ID_9432,  gMsg_ID_9433,  gMsg_ID_9434,  gMsg_ID_9436,
+        gMsg_ID_9437,  gMsg_ID_9438,  gMsg_ID_10010, gMsg_ID_10020, gMsg_ID_10040, gMsg_ID_10050, gMsg_ID_10060,
+        gMsg_ID_10070, gMsg_ID_10080, gMsg_ID_10200, gMsg_ID_10210, gMsg_ID_10220, gMsg_ID_10230, gMsg_ID_10255,
+        gMsg_ID_10300, gMsg_ID_10310, gMsg_ID_10320, gMsg_ID_10321, gMsg_ID_10322, gMsg_ID_10323, gMsg_ID_10324,
+        gMsg_ID_11010, gMsg_ID_11020, gMsg_ID_11030, gMsg_ID_11040, gMsg_ID_11050, gMsg_ID_11060, gMsg_ID_11100,
+        gMsg_ID_11110, gMsg_ID_11120, gMsg_ID_11130, gMsg_ID_11150, gMsg_ID_11160, gMsg_ID_11200, gMsg_ID_11210,
+        gMsg_ID_11220, gMsg_ID_11230, gMsg_ID_11240, gMsg_ID_11241, gMsg_ID_14020, gMsg_ID_14030, gMsg_ID_14040,
+        gMsg_ID_14045, gMsg_ID_14050, gMsg_ID_14060, gMsg_ID_14070, gMsg_ID_14080, gMsg_ID_14100, gMsg_ID_14110,
+        gMsg_ID_14120, gMsg_ID_14130, gMsg_ID_14140, gMsg_ID_14150, gMsg_ID_14160, gMsg_ID_14170, gMsg_ID_14180,
+        gMsg_ID_14190, gMsg_ID_14200, gMsg_ID_14210, gMsg_ID_14220, gMsg_ID_14230, gMsg_ID_14300, gMsg_ID_14310,
+        gMsg_ID_14320, gMsg_ID_14330, gMsg_ID_14340, gMsg_ID_14350, gMsg_ID_14360, gMsg_ID_14370, gMsg_ID_15010,
+        gMsg_ID_15030, gMsg_ID_15040, gMsg_ID_15045, gMsg_ID_15050, gMsg_ID_15051, gMsg_ID_15052, gMsg_ID_15053,
+        gMsg_ID_15054, gMsg_ID_15060, gMsg_ID_15100, gMsg_ID_15110, gMsg_ID_15120, gMsg_ID_15130, gMsg_ID_15140,
+        gMsg_ID_15200, gMsg_ID_15210, gMsg_ID_15220, gMsg_ID_15230, gMsg_ID_15240, gMsg_ID_15250, gMsg_ID_15251,
+        gMsg_ID_15252, gMsg_ID_15253, gMsg_ID_15254, gMsg_ID_16010, gMsg_ID_16020, gMsg_ID_16030, gMsg_ID_16040,
+        gMsg_ID_16046, gMsg_ID_16047, gMsg_ID_16050, gMsg_ID_16055, gMsg_ID_16060, gMsg_ID_16080, gMsg_ID_16085,
+        gMsg_ID_16090, gMsg_ID_16100, gMsg_ID_16110, gMsg_ID_16120, gMsg_ID_16125, gMsg_ID_16130, gMsg_ID_16135,
+        gMsg_ID_16140, gMsg_ID_16150, gMsg_ID_16160, gMsg_ID_16165, gMsg_ID_16170, gMsg_ID_16175, gMsg_ID_16180,
+        gMsg_ID_16185, gMsg_ID_16200, gMsg_ID_16210, gMsg_ID_16220, gMsg_ID_16230, gMsg_ID_16240, gMsg_ID_16250,
+        gMsg_ID_16260, gMsg_ID_16270, gMsg_ID_16280, gMsg_ID_17010, gMsg_ID_17020, gMsg_ID_17030, gMsg_ID_17100,
+        gMsg_ID_17110, gMsg_ID_17120, gMsg_ID_17130, gMsg_ID_17131, gMsg_ID_17140, gMsg_ID_17150, gMsg_ID_17160,
+        gMsg_ID_17170, gMsg_ID_17300, gMsg_ID_17310, gMsg_ID_17320, gMsg_ID_17330, gMsg_ID_17350, gMsg_ID_17360,
+        gMsg_ID_17370, gMsg_ID_17380, gMsg_ID_17390, gMsg_ID_17400, gMsg_ID_17410, gMsg_ID_17420, gMsg_ID_17430,
+        gMsg_ID_17440, gMsg_ID_17450, gMsg_ID_17460, gMsg_ID_17470, gMsg_ID_17471, gMsg_ID_17472, gMsg_ID_17473,
+        gMsg_ID_17474, gMsg_ID_17475, gMsg_ID_17476, gMsg_ID_18000, gMsg_ID_18005, gMsg_ID_18006, gMsg_ID_18007,
+        gMsg_ID_18010, gMsg_ID_18015, gMsg_ID_18018, gMsg_ID_18020, gMsg_ID_18021, gMsg_ID_18022, gMsg_ID_18025,
+        gMsg_ID_18030, gMsg_ID_18031, gMsg_ID_18035, gMsg_ID_18040, gMsg_ID_18045, gMsg_ID_18050, gMsg_ID_18055,
+        gMsg_ID_18060, gMsg_ID_18065, gMsg_ID_18066, gMsg_ID_18070, gMsg_ID_18075, gMsg_ID_18080, gMsg_ID_18085,
+        gMsg_ID_18090, gMsg_ID_18095, gMsg_ID_18100, gMsg_ID_18105, gMsg_ID_18120, gMsg_ID_18130, gMsg_ID_18140,
+        gMsg_ID_18150, gMsg_ID_19010, gMsg_ID_19205, gMsg_ID_19200, gMsg_ID_19210, gMsg_ID_19220, gMsg_ID_19230,
+        gMsg_ID_19240, gMsg_ID_19250, gMsg_ID_19325, gMsg_ID_19330, gMsg_ID_19335, gMsg_ID_19340, gMsg_ID_19350,
+        gMsg_ID_19355, gMsg_ID_19360, gMsg_ID_19370, gMsg_ID_19400, gMsg_ID_19410, gMsg_ID_19420, gMsg_ID_19430,
+        gMsg_ID_19440, gMsg_ID_19450, gMsg_ID_19451, gMsg_ID_19452, gMsg_ID_19453, gMsg_ID_19454, gMsg_ID_19455,
+        gMsg_ID_19456, gMsg_ID_19457, gMsg_ID_19458, gMsg_ID_19459, gMsg_ID_19460, gMsg_ID_19461, gMsg_ID_19462,
+        gMsg_ID_19463, gMsg_ID_19464, gMsg_ID_19465, gMsg_ID_19466, gMsg_ID_19467, gMsg_ID_19468, gMsg_ID_20010,
+        gMsg_ID_20011, gMsg_ID_20012, gMsg_ID_20013, gMsg_ID_20014, gMsg_ID_20015, gMsg_ID_20016, gMsg_ID_20017,
+        gMsg_ID_20018, gMsg_ID_20019, gMsg_ID_20020, gMsg_ID_20030, gMsg_ID_20040, gMsg_ID_20050, gMsg_ID_20060,
+        gMsg_ID_20070, gMsg_ID_20080, gMsg_ID_20084, gMsg_ID_20085, gMsg_ID_20090, gMsg_ID_20091, gMsg_ID_20092,
+        gMsg_ID_20150, gMsg_ID_20160, gMsg_ID_20170, gMsg_ID_20180, gMsg_ID_20190, gMsg_ID_20200, gMsg_ID_20210,
+        gMsg_ID_20220, gMsg_ID_20221, gMsg_ID_20222, gMsg_ID_20230, gMsg_ID_20235, gMsg_ID_20236, gMsg_ID_20237,
+        gMsg_ID_20238, gMsg_ID_20239, gMsg_ID_20250, gMsg_ID_20260, gMsg_ID_20261, gMsg_ID_20262, gMsg_ID_20263,
+        gMsg_ID_20264, gMsg_ID_20265, gMsg_ID_20266, gMsg_ID_20267, gMsg_ID_20268, gMsg_ID_20269, gMsg_ID_20270,
+        gMsg_ID_20271, gMsg_ID_20272, gMsg_ID_20273, gMsg_ID_20274, gMsg_ID_20275, gMsg_ID_20276, gMsg_ID_20277,
+        gMsg_ID_20278, gMsg_ID_20279, gMsg_ID_20280, gMsg_ID_20281, gMsg_ID_20282, gMsg_ID_20283, gMsg_ID_20284,
+        gMsg_ID_20285, gMsg_ID_20286, gMsg_ID_20287, gMsg_ID_20288, gMsg_ID_20289, gMsg_ID_20290, gMsg_ID_20291,
+        gMsg_ID_20292, gMsg_ID_20294, gMsg_ID_20296, gMsg_ID_20297, gMsg_ID_20298, gMsg_ID_20299, gMsg_ID_20300,
+        gMsg_ID_20301, gMsg_ID_20302, gMsg_ID_20303, gMsg_ID_20304, gMsg_ID_20305, gMsg_ID_20306, gMsg_ID_20307,
+        gMsg_ID_20308, gMsg_ID_20309, gMsg_ID_20310, gMsg_ID_20311, gMsg_ID_20312, gMsg_ID_20313, gMsg_ID_20314,
+        gMsg_ID_20315, gMsg_ID_20316, gMsg_ID_20317, gMsg_ID_20318, gMsg_ID_20319, gMsg_ID_20320, gMsg_ID_20321,
+        gMsg_ID_20326, gMsg_ID_20327, gMsg_ID_20328, gMsg_ID_20329, gMsg_ID_20330, gMsg_ID_20331, gMsg_ID_20332,
+        gMsg_ID_20333, gMsg_ID_20337, gMsg_ID_20338, gMsg_ID_20339, gMsg_ID_20340, gMsg_ID_20343, gMsg_ID_20344,
+        gMsg_ID_20345, gMsg_ID_21010, gMsg_ID_21020, gMsg_ID_21030, gMsg_ID_21050, gMsg_ID_21060, gMsg_ID_21070,
+        gMsg_ID_21071, gMsg_ID_21072, gMsg_ID_21073, gMsg_ID_21080, gMsg_ID_21081, gMsg_ID_21082, gMsg_ID_21083,
+        gMsg_ID_21090, gMsg_ID_21091, gMsg_ID_21092, gMsg_ID_21093, gMsg_ID_22000, gMsg_ID_22001, gMsg_ID_22002,
+        gMsg_ID_22003, gMsg_ID_22004, gMsg_ID_22005, gMsg_ID_22006, gMsg_ID_22007, gMsg_ID_22008, gMsg_ID_22009,
+        gMsg_ID_22010, gMsg_ID_22011, gMsg_ID_22012, gMsg_ID_22013, gMsg_ID_22014, gMsg_ID_22015, gMsg_ID_22016,
+        gMsg_ID_22017, gMsg_ID_22018, gMsg_ID_22019, gMsg_ID_22020, gMsg_ID_23000, gMsg_ID_23001, gMsg_ID_23002,
+        gMsg_ID_23003, gMsg_ID_23004, gMsg_ID_23005, gMsg_ID_23006, gMsg_ID_23007, gMsg_ID_23008, gMsg_ID_23009,
+        gMsg_ID_23010, gMsg_ID_23011, gMsg_ID_23012, gMsg_ID_23013, gMsg_ID_23014, gMsg_ID_23015, gMsg_ID_23016,
+        gMsg_ID_23017, gMsg_ID_23018, gMsg_ID_23019, gMsg_ID_23020, gMsg_ID_23021, gMsg_ID_23022, gMsg_ID_23023,
+        gMsg_ID_23024, gMsg_ID_23025, gMsg_ID_23026, gMsg_ID_23027, gMsg_ID_23028, gMsg_ID_23029, gMsg_ID_23030,
+        gMsg_ID_23031, gMsg_ID_23032
+    };
+        msg = msgList[RAND_INT(ARRAY_COUNT(msgList))];
+    }
     if ((gRadioState != 0) && (func_radio_800BA7BC(msg, priority) == 1)) {
         return;
     }

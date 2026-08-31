@@ -3189,6 +3189,7 @@ void Player_ArwingLaser(Player* player) {
             break;
         case LASERS_TWIN:
         case LASERS_HYPER:
+        case LASERS_NOVA:
             for (i = 0; i < ARRAY_COUNT(gPlayerShots) - 1; i++) {
                 if (gPlayerShots[i].obj.status == SHOT_FREE) {
                     Player_SetupArwingShot(player, &gPlayerShots[i], 0.0f, -10.0f, PLAYERSHOT_TWIN_LASER,
@@ -3196,9 +3197,16 @@ void Player_ArwingLaser(Player* player) {
                     if (laser == LASERS_TWIN) {
                         Player_PlaySfx(player->sfxSource, NA_SE_ARWING_TWIN_LASER, player->num);
                         gMuzzleFlashScale[player->num] = 0.5f;
-                    } else {
+                    } else if (laser == LASERS_HYPER) {
                         Player_PlaySfx(player->sfxSource, NA_SE_ARWING_TWIN_LASER2, player->num);
                         gMuzzleFlashScale[player->num] = 0.75f;
+                    } else {
+                        Player_PlaySfx(player->sfxSource, NA_SE_ARWING_TWIN_LASER2, player->num);
+                        float upgradeEffects = (float) (gAdditionalLaserUps / 10);
+                        if (upgradeEffects > 0.5f)
+                            upgradeEffects = 0.5f;
+                            
+                        gMuzzleFlashScale[player->num] = 1.0f + upgradeEffects;
                     }
                     break;
                 }
@@ -3463,6 +3471,7 @@ void Player_Shoot(Player* player) {
             if ((player->arwing.rightWingState <= WINGSTATE_BROKEN) ||
                 (player->arwing.leftWingState <= WINGSTATE_BROKEN)) {
                 gLaserStrength[player->num] = LASERS_SINGLE;
+                gAdditionalLaserUps = 0;
             }
             if (!Player_UpdateLockOn(player)) {
                 if (gLaserStrength[gPlayerNum] > LASERS_SINGLE) {
@@ -4697,6 +4706,17 @@ void Player_Setup(Player* playerx) {
         }
         gHitCount = gSavedHitCount = D_ctx_80177CA4;
     }
+    if (CVarGetInteger("gSurvival", 0) == 1) {
+        gLifeCount[0] = 0;
+        if (gMissionNumber > 0) {
+            player->shields = gSavedShields;
+            gGoldRingCount[0] = gSavedRings;
+            player->arwing.rightWingState = gSavedWingHPLeft;
+            player->arwing.leftWingState = gSavedWingHPRight;
+            gRightWingHealth[0] = gSavedWingStateRight;
+            gLeftWingHealth[0] = gSavedWingStateLeft;
+        }
+    }
 
     D_hud_80161720[0] = 0.0f;
     D_hud_80161720[1] = 0.0f;
@@ -4923,6 +4943,7 @@ void Player_Setup(Player* playerx) {
             gStarWolfTeamAlive[j] = gSavedStarWolfTeamAlive[j] = true;
         }
         gLaserStrength[gPlayerNum] = LASERS_SINGLE;
+        gAdditionalLaserUps = 0;
         gGoldRingCount[0] = gSavedGoldRingCount[0] = gTotalHits = 0;
         gLifeCount[gPlayerNum] = 2;
         gBombCount[gPlayerNum] = 3;
@@ -6158,6 +6179,7 @@ void Player_Update(Player* player) {
                                 }
                                 gBombCount[gPlayerNum] = 3;
                                 gLaserStrength[gPlayerNum] = LASERS_SINGLE;
+                                gAdditionalLaserUps = 0;
                                 gLoadLevelObjects = true;
                                 gDrawMode = DRAW_NONE;
                             }
@@ -6823,6 +6845,18 @@ void Play_UpdateLevel(void) {
     f32 sp3C;
     u8 shields;
     u8 heightParam = 0;
+
+    if (CVarGetInteger("gSurvival", 0) == 1) {
+        if (gPlayer[0].state == PLAYERSTATE_LEVEL_COMPLETE) {
+            gSavedShields = gPlayer[0].shields;
+            gSavedRings = gGoldRingCount[0];
+            gSavedWingHPLeft = gLeftWingHealth[0];
+            gSavedWingHPRight = gRightWingHealth[0];
+            gSavedWingStateRight = gPlayer[0].arwing.rightWingState;
+            gSavedWingStateLeft = gPlayer[0].arwing.rightWingState;
+        }
+        gLifeCount[0] = 0;
+    }
 
     switch (gCurrentLevel) {
         case LEVEL_TRAINING:

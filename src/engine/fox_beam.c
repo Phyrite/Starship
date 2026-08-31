@@ -140,7 +140,7 @@ void PlayerShot_Impact(PlayerShot* shot) {
         }
         PlayerShot_ExplodeBomb(shot);
     } else if (shot->obj.id == PLAYERSHOT_LOCK_ON) {
-        shot->scale = 7.5f;
+        shot->scale = 7.5f + ((float)(gAdditionalLaserUps) * 0.2);
 
         for (i = 0; i < ARRAY_COUNT(gActors); i++) {
             gActors[i].lockOnTimers[shot->sourceId] = 0;
@@ -674,6 +674,8 @@ void PlayerShot_ApplyDamageToActor(PlayerShot* shot, Actor* actor, s32 hitIndex)
                 break;
             case LASERS_HYPER:
                 actor->damage = 15;
+            case LASERS_NOVA:
+                actor->damage = 18 + (gAdditionalLaserUps * 3);
                 break;
         }
     } else if ((shot->sourceId >= NPC_SHOT_ID) && (gCurrentLevel == LEVEL_SECTOR_X)) {
@@ -1027,6 +1029,8 @@ void PlayerShot_CollisionCheck(PlayerShot* shot) {
                                     case LASERS_HYPER:
                                         boss->damage = 15;
                                         break;
+                                    case LASERS_NOVA:
+                                        boss->damage = 16 + (gAdditionalLaserUps);
                                 }
                             }
                         }
@@ -1120,6 +1124,9 @@ void PlayerShot_DrawLaser(PlayerShot* shot) {
                 case LASERS_HYPER:
                     dList = D_101AD20;
                     break;
+                case LASERS_NOVA:
+                    dList = D_101AD20;
+                    break;
             }
             if (gCurrentLevel == LEVEL_AQUAS) {
                 twinLaserSeparation = 4.0f;
@@ -1129,9 +1136,17 @@ void PlayerShot_DrawLaser(PlayerShot* shot) {
             Matrix_Translate(gGfxMatrix, twinLaserSeparation, 0.f, 0.0f, MTXF_APPLY);
             Matrix_SetGfxMtx(&gMasterDisp);
             gSPDisplayList(gMasterDisp++, dList);
+            if (gLaserStrength[0] == LASERS_NOVA) {
+                gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 180, 0, 255, 255);
+                gDPSetEnvColor(gMasterDisp++, 120, 0, 200, 255);
+            }
             Matrix_Translate(gGfxMatrix, -(2.0f * twinLaserSeparation), 0.0f, 0.f, MTXF_APPLY);
             Matrix_SetGfxMtx(&gMasterDisp);
             gSPDisplayList(gMasterDisp++, dList);
+            if (gLaserStrength[0] == LASERS_NOVA) {
+                gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 180, 0, 255, 255);
+                gDPSetEnvColor(gMasterDisp++, 120, 0, 200, 255);
+            }
         } else {
             var_a1 = 0;
             if ((gCurrentLevel != LEVEL_KATINA) && (shot->sourceId > NPC_SHOT_ID + AI360_PEPPY) &&

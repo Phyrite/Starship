@@ -1161,6 +1161,7 @@ void Map_PathChange_DrawOptions(void);
 void Map_RestartLevelLifeDown_Draw(void);
 bool Map_Input_CursorY(void);
 void Map_LevelStart_Update(void);
+bool Map_LevelCheckRepeats(void);
 void Map_CurrentLevel_Setup(void);
 void Map_LevelStart_AudioSpecSetup(LevelId level);
 bool Map_LevelPlayedStatus_Check(PlanetId planet);
@@ -2273,9 +2274,10 @@ void Map_PrologueArwing_Draw(void) {
         Matrix_Translate(gGfxMatrix, -60.0f, 293.0f, -360.0f, MTXF_APPLY);
         Matrix_Scale(gGfxMatrix, 3.0f, 3.0f, 3.0f, MTXF_APPLY);
 
-        Matrix_RotateZ(gGfxMatrix, M_DTOR * -15.0f, MTXF_APPLY);
-        Matrix_RotateX(gGfxMatrix, M_DTOR * sMapArwingXrot, MTXF_APPLY);
-        Matrix_RotateY(gGfxMatrix, M_DTOR * -90.0f, MTXF_APPLY);
+            Matrix_RotateZ(gGfxMatrix, M_DTOR * -15.0f, MTXF_APPLY);
+            Matrix_RotateX(gGfxMatrix, M_DTOR * sMapArwingXrot, MTXF_APPLY);
+            Matrix_RotateY(gGfxMatrix, M_DTOR * -90.0f, MTXF_APPLY);
+
 
         Matrix_SetGfxMtx(&gMasterDisp);
 
@@ -2290,9 +2292,7 @@ void Map_PrologueArwing_Draw(void) {
         arwing.teamFaceXrot = 0.0f;
         arwing.teamFaceYrot = 0.0f;
         arwing.cockpitGlassXrot = 0.0f;
-
-        Display_ArwingWings(&arwing);
-
+            Display_ArwingWings(&arwing);
         Matrix_Pop(&gGfxMatrix);
         Matrix_Pop(&gGfxMatrix);
     }
@@ -3942,9 +3942,42 @@ void Map_RestartLevelLifeDown_Draw(void) {
     }
 }
 
+bool Map_LevelCheckRepeats(void) {
+    for (int i = 0; i < ARRAY_COUNT(gMissionPlanet); i++)
+    {
+        printf("Checking for repeat levels... Comparing %d to %d\n", gMissionPlanet[i], sCurrentPlanetId);
+        if (gMissionPlanet[i] == sCurrentPlanetId && i != gMissionNumber) {
+            printf("Check returned positive. Re-randomizing...\n");
+            return true;
+        }
+        printf("Check returned negative.\n");
+    }
+    return false;
+}
+
 void Map_LevelStart_Update(void) {
     switch (sLevelStartState) {
         case 0:
+            srand(time(NULL));
+            int timesRandomized = 0;
+            while (CVarGetInteger("gAvoidRepeats", 0) == 1 && (Map_LevelCheckRepeats() || timesRandomized < 1)) {
+                if (CVarGetInteger("gStageRando", 0) == 1 && gMissionNumber < 5) {
+                    printf("Randomizing stage...\n");
+                    LevelId levelIndex[] = { LEVEL_CORNERIA, LEVEL_METEO,   LEVEL_KATINA,   LEVEL_SECTOR_Y,
+                                             LEVEL_FORTUNA,  LEVEL_AQUAS,   LEVEL_SECTOR_X, LEVEL_SOLAR,
+                                             LEVEL_ZONESS,   LEVEL_TITANIA, LEVEL_MACBETH,  LEVEL_SECTOR_Z };
+                    gCurrentLevel = levelIndex[RAND_INT(ARRAY_COUNT(levelIndex))];
+                    sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
+                    gMissionPlanet[gMissionNumber] = Map_GetPlanetId(gCurrentLevel);
+                } else if (gMissionNumber == 5 && CVarGetInteger("gStageRando", 0) == 1) {
+                    printf("Randomizing penultimate stage... Good luck!\n");
+                    LevelId levelIndex[] = { LEVEL_BOLSE, LEVEL_AREA_6 };
+                    gCurrentLevel = levelIndex[RAND_INT(ARRAY_COUNT(levelIndex))];
+                    sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
+                    gMissionPlanet[gMissionNumber] = Map_GetPlanetId(gCurrentLevel);
+                }
+                timesRandomized++;
+            }
             sWipeHeight = 0;
             D_menu_801CD9A0 = true;
             Map_CurrentLevel_Setup();
@@ -4125,7 +4158,8 @@ bool Map_LevelPlayedStatus_Check(PlanetId planet) {
 }
 
 void Map_CurrentLevel_Setup(void) {
-    switch (sCurrentPlanetId) {
+    
+        switch (sCurrentPlanetId) {
         case PLANET_CORNERIA:
             gCurrentLevel = LEVEL_CORNERIA;
             break;
