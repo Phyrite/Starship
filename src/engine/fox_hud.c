@@ -3455,8 +3455,7 @@ void HUD_BombCounter_Draw(f32 x, f32 y) {
     // Max bombs
     if (gBombCount[gPlayerNum] > 99 && CVarGetInteger("gIncreasedBombCap", 0) == 1) {
         gBombCount[gPlayerNum] = 99;
-    }
-    else if (gBombCount[gPlayerNum] > 9)
+    } else if (gBombCount[gPlayerNum] > 9 && CVarGetInteger("gIncreasedBombCap", 0) == 0)
     {
         gBombCount[gPlayerNum] = 9;
     }
