@@ -4006,7 +4006,6 @@ void Player_MoveArwingOnRails(Player* player) {
 
     gPlayerTurnRate = 2.3f;
     gPlayerTurnStickMod = 0.68f;
-
     if ((gInputPress->stick_x != 0) || (gInputPress->stick_y != 0)) {
         gPlayerTurnStickMod = 0.68f; //! FAKE ?
     }
@@ -4717,6 +4716,10 @@ void Player_Setup(Player* playerx) {
             gLeftWingHealth[0] = gSavedWingStateLeft;
         }
     }
+    srand(time(NULL));
+    gRandomizedEngineColor[0] = RAND_INT(255);
+    gRandomizedEngineColor[1] = RAND_INT(255);
+    gRandomizedEngineColor[2] = RAND_INT(255);
 
     D_hud_80161720[0] = 0.0f;
     D_hud_80161720[1] = 0.0f;

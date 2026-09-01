@@ -939,6 +939,7 @@ void DrawRandomizationMenu() {
             "Infinitely Upgradable Laser", "gToggleUpgradableLasers",
             { .tooltip =
                   "Makes laser upgrades useful even after you obtain hyper lasers by adding a new 'upgradable' laser type, which will have its damage output slightly increased for every additonal laser upgrade picked up. Every laser upgrade also very slightly increases the charge shot explosion radius." });
+        UIWidgets::CVarCheckbox("Randomize Engine Glow", "gEngineRando");
         ImGui::EndMenu();
     }
 

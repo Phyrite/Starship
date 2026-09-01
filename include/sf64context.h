@@ -25,6 +25,7 @@ extern s32 gSavedWingHPLeft;
 extern s32 gSavedWingHPRight;
 extern s32 gSavedWingStateRight;
 extern s32 gSavedWingStateLeft;
+extern s32 gRandomizedEngineColor[3];
 extern s32 gPlayerNum;
 extern s32 gCamCount;
 extern s32 gTeamShields[6];

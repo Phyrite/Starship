@@ -2262,7 +2262,8 @@ void ItemPickup_Update(Item* this) {
                         CVarGetInteger("gToggleUpgradableLasers", 0) == 1) {
                         gLaserStrength[this->playerNum] = LASERS_UPGRADABLE;
                         gAdditionalLaserUps++;
-                    } else if (gLaserStrength[this->playerNum] > LASERS_HYPER) {
+                    } else if (gLaserStrength[this->playerNum] > LASERS_HYPER &&
+                               CVarGetInteger("gToggleUpgradableLasers", 0) == 0) {
                         gLaserStrength[this->playerNum] = LASERS_HYPER;
                     }
 

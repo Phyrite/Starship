@@ -906,24 +906,28 @@ void Display_PlayerShadow_Draw(Player* player) {
 
     FrameInterpolation_RecordCloseChild();
 }
-
-void Display_DrawEngineGlow(EngineGlowColor color) {
+    void Display_DrawEngineGlow(EngineGlowColor color) {
     RCP_SetupDL(&gMasterDisp, SETUPDL_67);
     gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 255, 255, 255, 255);
+    if (CVarGetInteger("gEngineRando", 0) == 1) {
+        gDPSetEnvColor(gMasterDisp++, gRandomizedEngineColor[0], gRandomizedEngineColor[1], gRandomizedEngineColor[2],
+                       255);
+    } else {
 
-    switch (color) {
-        case EG_RED:
-            gDPSetEnvColor(gMasterDisp++, 255, 0, 0, 255);
-            break;
-        case EG_BLUE:
-            gDPSetEnvColor(gMasterDisp++, 0, 0, 255, 255);
-            break;
-        case EG_GREEN:
-            gDPSetEnvColor(gMasterDisp++, 0, 255, 0, 255);
-            break;
-        case EG_ORANGE:
-            gDPSetEnvColor(gMasterDisp++, 255, 64, 0, 255);
-            break;
+        switch (color) {
+            case EG_RED:
+                gDPSetEnvColor(gMasterDisp++, 255, 0, 0, 255);
+                break;
+            case EG_BLUE:
+                gDPSetEnvColor(gMasterDisp++, 0, 0, 255, 255);
+                break;
+            case EG_GREEN:
+                gDPSetEnvColor(gMasterDisp++, 0, 255, 0, 255);
+                break;
+            case EG_ORANGE:
+                gDPSetEnvColor(gMasterDisp++, 255, 64, 0, 255);
+                break;
+        }
     }
     gSPDisplayList(gMasterDisp++, aOrbDL);
 }
