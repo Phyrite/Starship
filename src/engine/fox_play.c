@@ -4705,17 +4705,6 @@ void Player_Setup(Player* playerx) {
         }
         gHitCount = gSavedHitCount = D_ctx_80177CA4;
     }
-    if (CVarGetInteger("gSurvival", 0) == 1) {
-        gLifeCount[0] = 0;
-        if (gMissionNumber > 0) {
-            player->shields = gSavedShields;
-            gGoldRingCount[0] = gSavedRings;
-            player->arwing.rightWingState = gSavedWingHPLeft;
-            player->arwing.leftWingState = gSavedWingHPRight;
-            gRightWingHealth[0] = gSavedWingStateRight;
-            gLeftWingHealth[0] = gSavedWingStateLeft;
-        }
-    }
     srand(time(NULL));
     gRandomizedEngineColor[0] = RAND_INT(255);
     gRandomizedEngineColor[1] = RAND_INT(255);
@@ -4827,7 +4816,6 @@ void Player_Setup(Player* playerx) {
         player->unk_014 = 1.0f;
         player->unk_018 = 1.0f;
     }
-
     if (D_ctx_8017782C && (gSavedObjectLoadIndex == 0)) {
         gLeveLClearStatus[gCurrentLevel] = 0;
 
@@ -4991,6 +4979,17 @@ void Player_Setup(Player* playerx) {
 
     if (gLaserStrength[gPlayerNum] > LASERS_SINGLE) {
         player->arwing.laserGunsYpos = -10.0f;
+    }
+    if (CVarGetInteger("gSurvival", 0) == 1) {
+        gLifeCount[0] = 0;
+        if (gMissionNumber > 0) {
+            player->shields = gSavedShields;
+            gGoldRingCount[0] = gSavedRings;
+            player->arwing.leftWingState = gSavedWingHPLeft;
+            player->arwing.rightWingState = gSavedWingHPRight;
+            gRightWingHealth[0] = gSavedWingStateRight;
+            gLeftWingHealth[0] = gSavedWingStateLeft;
+        }
     }
     gPauseEnabled = false;
 }
@@ -6858,7 +6857,7 @@ void Play_UpdateLevel(void) {
             gSavedWingStateRight = gPlayer[0].arwing.rightWingState;
             gSavedWingStateLeft = gPlayer[0].arwing.rightWingState;
         }
-        gLifeCount[0] = 0;
+        if(gPlayer[0].state == PLAYERSTATE_ACTIVE) gLifeCount[0] = 0;
     }
 
     switch (gCurrentLevel) {
