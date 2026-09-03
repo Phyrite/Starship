@@ -915,6 +915,8 @@ void DrawDebugMenu() {
     }
 }
 
+static const char* stageRandoOptions[] = { "Standard", "Randomize", "Randomize (No Repeats)" };
+
 void DrawRandomizationMenu() {
     if (UIWidgets::BeginMenu("Randomization")) {
         UIWidgets::CVarCheckbox("Randomize Radio Dialogue", "gDialogueRando");
@@ -922,14 +924,30 @@ void DrawRandomizationMenu() {
         UIWidgets::CVarCheckbox("Randomize Music", "gMusicRando");
         UIWidgets::Spacer(0);
         if (UIWidgets::BeginMenu("Stage Settings")) {
-            UIWidgets::CVarCheckbox(
-                "Randomize Stages", "gStageRando",
-                { .tooltip =
-                      "Randomizes the order of levels/planets in the game. Area 6/Bolse and Venom are guarenteed to "
-                      "be the penultimate and final levels respectively." });
-            UIWidgets::CVarCheckbox("Avoid Repeat Stages", "gAvoidRepeats",
-                                    { .tooltip = "If randomize stages is enabled, the randomizer will "
-                                                 "avoid placing two of the same stages in the same run." });
+            if (UIWidgets::CVarCombobox(
+                    "Stage Order", "stages.Selection", stageRandoOptions,
+                    {
+                        .tooltip = "Either randomize the order of levels/planets in the game, or play normally.\n- If randomization is on, Area 6/Bolse and Venom are guaranteed to be the penultimate and final levels respectively.\n- If no repeats is selected, the randomizer will attempt to avoid picking the same level twice on a run.",
+                        .defaultIndex = 0,
+                    })) {
+                switch (CVarGetInteger("stages.Selection", 0)) {
+                    case 0:
+                        printf("stages are normal\n");
+                        CVarSetInteger("gStageRando", 0);
+                        CVarSetInteger("gAvoidRepeats", 0);
+                        break;
+                    case 1:
+                        printf("stages are randomized\n");
+                        CVarSetInteger("gStageRando", 1);
+                        CVarSetInteger("gAvoidRepeats", 0);
+                        break;
+                    case 2:
+                        printf("stages are randomized without repeats\n");
+                        CVarSetInteger("gAvoidRepeats", 1);
+                        CVarSetInteger("gStageRando", 1);
+                        break;
+                }
+            }
             UIWidgets::CVarCheckbox("Survival Mode", "gSurvival",
                                     { .tooltip = "Turns the game into a test of your skills as a pilot of Star Fox. Your shields, wing damage, and gold rings are saved across levels, and just going down once will result in a game over." });
             ImGui::EndMenu();

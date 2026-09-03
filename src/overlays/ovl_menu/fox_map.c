@@ -3960,7 +3960,8 @@ void Map_LevelStart_Update(void) {
         case 0:
             srand(time(NULL));
             int timesRandomized = 0;
-            while (CVarGetInteger("gAvoidRepeats", 0) == 1 && (Map_LevelCheckRepeats() || timesRandomized < 1)) {
+            while ((CVarGetInteger("gAvoidRepeats", 0) == 1 && (Map_LevelCheckRepeats() || timesRandomized < 1)) ||
+                   (CVarGetInteger("gAvoidRepeats", 0) == 0 && timesRandomized < 1)) {
                 if (CVarGetInteger("gStageRando", 0) == 1 && gMissionNumber < 5) {
                     printf("Randomizing stage...\n");
                     LevelId levelIndex[] = { LEVEL_CORNERIA, LEVEL_METEO,   LEVEL_KATINA,   LEVEL_SECTOR_Y,
