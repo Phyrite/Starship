@@ -376,8 +376,8 @@ Planet sPlanets[PLANET_MAX] = {
         9.0f,
         0,
         PL_ANIM_SPIN,
-        PLANET_NONE,
-        PLANET_NONE,
+        PLANET_KATINA,
+        PLANET_KATINA,
         PLANET_NONE,
     },
     {
@@ -394,7 +394,7 @@ Planet sPlanets[PLANET_MAX] = {
     },
 };
 
-// unused
+    // unused
 PlanetId sPlanetList[] = {
     PLANET_CORNERIA, PLANET_METEO,  PLANET_TITANIA, PLANET_SECTOR_X, PLANET_AQUAS,
     PLANET_BOLSE,    PLANET_VENOM,  PLANET_FORTUNA, PLANET_AREA_6,   PLANET_MACBETH,
@@ -1498,8 +1498,9 @@ void Map_Setup_Play(void) {
             sNextPlanetId = sPlanets[sCurrentPlanetId].warp;
             break;
     }
-
+    gMarathonScores[gMarathonProgress] = gHitCount;
     gMissionNumber++;
+    gMarathonProgress++;
 
     Map_PlanetExplosions_Setup();
 
@@ -1575,6 +1576,10 @@ void Map_Setup_Menu(void) {
 
     gTotalHits = 0;
     gHitCount = 0;
+    gMarathonProgress = 0;
+    for (i = 0; i < ARRAY_COUNT(gMarathonScores), i++;) {
+        gMarathonScores[i] = 0;
+    }
 
     gTeamShields[TEAM_ID_FALCO] = 255;
     gTeamShields[TEAM_ID_SLIPPY] = 255;
@@ -3488,23 +3493,33 @@ void Map_PathChange_Update(void) {
             break;
 
         case 1:
-            if (D_menu_801CF000[D_menu_801CEFDC] == 0) {
-                if (D_menu_801CEFD0) {
-                    if (gLifeCount[gPlayerNum] != 0) {
-                        Audio_PlayDeathSequence();
-                        sRestartLevelStates = 1;
-                        sExplosionAnimIdx = 0;
-                        sMapTimer1 = 120;
+           
+
+                if (D_menu_801CF000[D_menu_801CEFDC] == 0) {
+                if (CVarGetInteger("gMarathon", 0) == 1 && D_menu_801CEFD0) {
+                    AUDIO_PLAY_SFX(NA_SE_ERROR, gDefaultSfxSource, 4);
+                    D_menu_801CD94C = 0;
+                    D_menu_801CEFD0 = false;
+                } else {
+                    if (D_menu_801CEFD0) {
+
+                        if (gLifeCount[gPlayerNum] != 0) {
+                            Audio_PlayDeathSequence();
+                            sRestartLevelStates = 1;
+                            sExplosionAnimIdx = 0;
+                            sMapTimer1 = 120;
+                        } else {
+                            D_menu_801CD9D4 = 1;
+                            sMapTimer1 = 0;
+                        }
+
                     } else {
-                        D_menu_801CD9D4 = 1;
                         sMapTimer1 = 0;
                     }
-                } else {
-                    sMapTimer1 = 0;
+                    D_menu_801CEFC4 = 0;
+                    D_menu_801CD94C = 2;
                 }
-                D_menu_801CEFC4 = 0;
-                D_menu_801CD94C = 2;
-            }
+                }
             break;
 
         case 2:
@@ -3958,26 +3973,82 @@ bool Map_LevelCheckRepeats(void) {
 void Map_LevelStart_Update(void) {
     switch (sLevelStartState) {
         case 0:
-            srand(time(NULL));
-            int timesRandomized = 0;
-            while ((CVarGetInteger("gAvoidRepeats", 0) == 1 && (Map_LevelCheckRepeats() || timesRandomized < 1)) ||
-                   (CVarGetInteger("gAvoidRepeats", 0) == 0 && timesRandomized < 1)) {
-                if (CVarGetInteger("gStageRando", 0) == 1 && gMissionNumber < 5) {
-                    printf("Randomizing stage...\n");
-                    LevelId levelIndex[] = { LEVEL_CORNERIA, LEVEL_METEO,   LEVEL_KATINA,   LEVEL_SECTOR_Y,
-                                             LEVEL_FORTUNA,  LEVEL_AQUAS,   LEVEL_SECTOR_X, LEVEL_SOLAR,
-                                             LEVEL_ZONESS,   LEVEL_TITANIA, LEVEL_MACBETH,  LEVEL_SECTOR_Z };
-                    gCurrentLevel = levelIndex[RAND_INT(ARRAY_COUNT(levelIndex))];
-                    sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
-                    gMissionPlanet[gMissionNumber] = Map_GetPlanetId(gCurrentLevel);
-                } else if (gMissionNumber == 5 && CVarGetInteger("gStageRando", 0) == 1) {
-                    printf("Randomizing penultimate stage... Good luck!\n");
-                    LevelId levelIndex[] = { LEVEL_BOLSE, LEVEL_AREA_6 };
-                    gCurrentLevel = levelIndex[RAND_INT(ARRAY_COUNT(levelIndex))];
-                    sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
-                    gMissionPlanet[gMissionNumber] = Map_GetPlanetId(gCurrentLevel);
+            if (CVarGetInteger("gStageRando", 0) == 1) {
+                srand(time(NULL));
+                int timesRandomized = 0;
+                while ((CVarGetInteger("gAvoidRepeats", 0) == 1 && (Map_LevelCheckRepeats() || timesRandomized < 1)) ||
+                       (CVarGetInteger("gAvoidRepeats", 0) == 0 && timesRandomized < 1)) {
+                    if (gMissionNumber < 5) {
+                        printf("Randomizing stage...\n");
+                        LevelId levelIndex[] = { LEVEL_CORNERIA, LEVEL_METEO,   LEVEL_KATINA,   LEVEL_SECTOR_Y,
+                                                 LEVEL_FORTUNA,  LEVEL_AQUAS,   LEVEL_SECTOR_X, LEVEL_SOLAR,
+                                                 LEVEL_ZONESS,   LEVEL_TITANIA, LEVEL_MACBETH,  LEVEL_SECTOR_Z };
+                        gCurrentLevel = levelIndex[RAND_INT(ARRAY_COUNT(levelIndex))];
+                        sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
+                        gMissionPlanet[gMissionNumber] = Map_GetPlanetId(gCurrentLevel);
+                    } else if (gMissionNumber == 5 && CVarGetInteger("gStageRando", 0) == 1) {
+                        printf("Randomizing penultimate stage... Good luck!\n");
+                        LevelId levelIndex[] = { LEVEL_BOLSE, LEVEL_AREA_6 };
+                        gCurrentLevel = levelIndex[RAND_INT(ARRAY_COUNT(levelIndex))];
+                        sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
+                        gMissionPlanet[gMissionNumber] = Map_GetPlanetId(gCurrentLevel);
+                    }
+                    timesRandomized++;
                 }
-                timesRandomized++;
+            } else if (CVarGetInteger("gMarathon", 0) == 1) {
+                switch (gMarathonProgress) { 
+                case 1:
+                    gCurrentLevel = LEVEL_METEO;
+                    break;
+                case 2:
+                    gCurrentLevel = LEVEL_FORTUNA;
+                    break;
+                case 3:
+                    gCurrentLevel = LEVEL_SECTOR_X;
+                    break;
+                case 4:
+                    gCurrentLevel = LEVEL_TITANIA;
+                    break;
+                case 5:
+                    gCurrentLevel = LEVEL_BOLSE;
+                    break;
+                case 6:
+                    gCurrentLevel = LEVEL_VENOM_1;
+                    break;
+                case 7:
+                    gCurrentLevel = LEVEL_KATINA;
+                    break;
+                case 8:
+                    gCurrentLevel = LEVEL_SOLAR;
+                    break;
+                case 9:
+                    gCurrentLevel = LEVEL_MACBETH;
+                    break;
+                case 10:
+                    gCurrentLevel = LEVEL_SECTOR_Y;
+                    break;
+                case 11:
+                    gCurrentLevel = LEVEL_AQUAS;
+                    break;
+                case 12:
+                    gCurrentLevel = LEVEL_ZONESS;
+                    break;
+                case 13:
+                    gCurrentLevel = LEVEL_SECTOR_Z;
+                    break;
+                case 14:
+                    gCurrentLevel = LEVEL_AREA_6;
+                    break;
+                case 15:
+                    gCurrentLevel = LEVEL_VENOM_2;
+                    break;
+                default:
+                    gCurrentLevel = LEVEL_CORNERIA;
+                    gMarathonProgress = 0;
+                    break;
+                }
+                sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
+                gMissionPlanet[gMissionNumber] = Map_GetPlanetId(gCurrentLevel);
             }
             sWipeHeight = 0;
             D_menu_801CD9A0 = true;

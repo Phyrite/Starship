@@ -4358,8 +4358,15 @@ void Andross_80193C4C(Player* player) {
                 gFillScreenRed = gFillScreenGreen = gFillScreenBlue = 0;
                 gFillScreenAlphaTarget = 255;
                 if (gFillScreenAlpha == 255) {
-                    gNextGameState = GSTATE_ENDING;
-                    D_ending_80196D00 = 0;
+                    if (gMarathonProgress < 15 && CVarGetInteger("gMarathon", 0) == 1) {
+                        player->state = PLAYERSTATE_NEXT;
+                        gFadeoutType = 4;
+                        gMissionNumber = 1;
+                        gMarathonProgress++;
+                    } else {
+                        gNextGameState = GSTATE_ENDING;
+                        D_ending_80196D00 = 0;
+                    }
                     gLeveLClearStatus[LEVEL_VENOM_ANDROSS] = Play_CheckMedalStatus(200) + 1;
                     AUDIO_SET_SPEC(SFXCHAN_0, AUDIOSPEC_27);
                 }
