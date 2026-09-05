@@ -7250,6 +7250,8 @@ void Macbeth_LevelComplete2(Player* player) {
         if (gFillScreenAlpha == 255) {
             player->state = PLAYERSTATE_NEXT;
             gFadeoutType = 4;
+            if (CVarGetInteger("gMarathon", 0) == 1)
+                gMissionNumber = 0;
             Play_ClearObjectData();
             Audio_FadeOutAll(10);
             gLeveLClearStatus[LEVEL_MACBETH] = Play_CheckMedalStatus(150) + 1;

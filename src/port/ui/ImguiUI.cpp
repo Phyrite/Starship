@@ -959,6 +959,7 @@ void DrawRandomizationMenu() {
             }
             UIWidgets::CVarCheckbox("Survival Mode", "gSurvival",
                                     { .tooltip = "Turns the game into a test of your skills as a pilot of Star Fox. Your shields, wing damage, and gold rings are saved across levels, and just going down once will result in a game over." });
+            UIWidgets::CVarSliderFloat("Damage Multiplier: %fx", "gDamageMultiplier", 0.0f, 5.0f, 1.0f);
             ImGui::EndMenu();
         }
         UIWidgets::CVarCheckbox("Randomize Items", "gItemRando");

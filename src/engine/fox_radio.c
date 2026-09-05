@@ -102,7 +102,7 @@ void Radio_PlayMessage(u16* msg, RadioCharacterId d) {
                                          RCID_BOSS_CORNERIA, RCID_ROB64,        RCID_BOSS_METEO,   RCID_BOSS_CORNERIA2,
                                          RCID_BOSS_AREA6,    RCID_BOSS_ZONESS,  RCID_BOSS_SECTORX, RCID_BOSS_SECTORY,
                                          RCID_BILL,          RCID_CAIMAN_AREA6, RCID_BOSS_MACBETH, RCID_WOLF,
-                                         RCID_PIGMA,         RCID_LEON,         RCID_ANDREW,       RCID_FOX_EXPERT };
+                                         RCID_PIGMA,         RCID_LEON,         RCID_ANDREW,       RCID_TR };
         character = charIndex[RAND_INT(ARRAY_COUNT(charIndex))];
     } else {
          character = d;
@@ -227,15 +227,17 @@ void Radio_PlayMessage(u16* msg, RadioCharacterId d) {
     if ((gRadioState != 0) && (func_radio_800BA7BC(msg, priority) == 1)) {
         return;
     }
-
+    int alternateChance = RAND_INT(100);
     gRadioMsgPri = priority;
     gRadioMsgRadioId = character;
 
-    if (gExpertMode && ((character == RCID_FOX) || (character == RCID_FOX_RED))) {
+    if (((character == RCID_FOX) || (character == RCID_FOX_RED)) && ((gExpertMode &&
+        CVarGetInteger("gPortraitRando", 0) == 0) || ((CVarGetInteger("gPortraitRando", 0) == 1) && alternateChance < 50))) {
         gRadioMsgRadioId = RCID_FOX_EXPERT;
     }
-
-    if (gCurrentLevel == LEVEL_VENOM_2) {
+    
+    if ((CVarGetInteger("gPortraitRando", 0) == 0 && gCurrentLevel == LEVEL_VENOM_2) ||
+        (CVarGetInteger("gPortraitRando", 0) == 1 && alternateChance < 50)) {
         switch (character) {
             case RCID_WOLF:
                 gRadioMsgRadioId = RCID_WOLF_2;

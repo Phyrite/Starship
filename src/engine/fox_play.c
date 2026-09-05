@@ -984,11 +984,11 @@ void Player_ApplyDamage(Player* player, s32 direction, s32 damage) {
     if ((damage == 39) || (damage == 41) || (damage == 42) || (damage == 43)) {
         damage = 40;
     }
-
+    float damageMult = CVarGetFloat("gDamageMultiplier", 1.0f);
     if (gExpertMode) {
-        player->damage = damage * 2;
+        player->damage = damage * 2 * damageMult;
     } else {
-        player->damage = damage;
+        player->damage = damage * damageMult;
     }
 
     if (player->damage != 0) {

@@ -4358,11 +4358,11 @@ void Andross_80193C4C(Player* player) {
                 gFillScreenRed = gFillScreenGreen = gFillScreenBlue = 0;
                 gFillScreenAlphaTarget = 255;
                 if (gFillScreenAlpha == 255) {
+                    gMarathonProgress++;
                     if (gMarathonProgress < 15 && CVarGetInteger("gMarathon", 0) == 1) {
                         player->state = PLAYERSTATE_NEXT;
                         gFadeoutType = 4;
                         gMissionNumber = 1;
-                        gMarathonProgress++;
                     } else {
                         gNextGameState = GSTATE_ENDING;
                         D_ending_80196D00 = 0;
