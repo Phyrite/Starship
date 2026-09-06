@@ -959,6 +959,12 @@ void DrawRandomizationMenu() {
             }
             UIWidgets::CVarCheckbox("Survival Mode", "gSurvival",
                                     { .tooltip = "Turns the game into a test of your skills as a pilot of Star Fox. Your shields, wing damage, and gold rings are saved across levels, and just going down once will result in a game over." });
+            UIWidgets::CVarCheckbox(
+                "Random Expert Mode", "gRandomExpert",
+                { .tooltip =
+                      "Has a 50/50 chance to turn the game into expert mode or into normal mode upon entering a stage." });
+            UIWidgets::CVarCheckbox("(UNSTABLE) Event Randomization", "gEventRando",
+                                    { .tooltip = "Randomizes every \"event\" in a stage. WARNING: This option can lead to chaotic and possibly gamebreaking results! Use with caution." });
             UIWidgets::CVarSliderFloat("Damage Multiplier: %fx", "gDamageMultiplier", 0.0f, 5.0f, 1.0f);
             ImGui::EndMenu();
         }
@@ -968,6 +974,8 @@ void DrawRandomizationMenu() {
             { .tooltip =
                   "Makes laser upgrades useful even after you obtain hyper lasers by adding a new 'upgradable' laser type, which will have its damage output slightly increased for every additonal laser upgrade picked up. Every laser upgrade also very slightly increases the charge shot explosion radius." });
         UIWidgets::CVarCheckbox("Randomize Engine Glow", "gEngineRando");
+        UIWidgets::CVarCheckbox("Enemy/Actor Randomization", "gActorRando",
+                                { .tooltip = "Randomizes certain enemies, obstacles, and more across stages and locations." });
         ImGui::EndMenu();
     }
 

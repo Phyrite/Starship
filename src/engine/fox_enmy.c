@@ -238,6 +238,13 @@ void Sprite_Load(Sprite* this, ObjectInit* objInit) {
     Object_SetInfo(&this->info, this->obj.id);
 }
 
+int arrayActors[] = { OBJ_ACTOR_CO_GARUDA_1,       OBJ_ACTOR_ME_METEOR_1,   OBJ_ACTOR_CO_SKIBOT, OBJ_ACTOR_ME_METEOR_SHOWER_1,
+                    OBJ_ACTOR_ME_METEOR_SHOWER_2, OBJ_ACTOR_ME_METEOR_SHOWER_3, OBJ_ACTOR_ME_HOPBOT,      OBJ_ACTOR_ME_LASER_CANNON_2,  OBJ_ACTOR_ME_LASER_CANNON_1,  OBJ_ACTOR_ZO_RADARBUOY,
+                    OBJ_ACTOR_ZO_SUPPLYCRANE,     OBJ_ACTOR_ZO_OBNEMA,          OBJ_ACTOR_ZO_BIRD,
+                    OBJ_ACTOR_ZO_CONTAINER,
+                    OBJ_ACTOR_ZO_TANKER,
+                    OBJ_ACTOR_ZO_MINE };
+
 void Actor_Load(Actor* this, ObjectInit* objInit) {
     Actor_Initialize(this);
     this->obj.status = OBJ_INIT;
@@ -249,6 +256,22 @@ void Actor_Load(Actor* this, ObjectInit* objInit) {
     this->obj.rot.x = objInit->rot.x;
     this->obj.rot.z = objInit->rot.z;
     this->obj.id = objInit->id;
+    bool randomize = false;
+    if (CVarGetInteger("gActorRando", 0) == 1) {
+        for (int i = 0; i < ARRAY_COUNT(arrayActors); i++) {
+            if (this->obj.id == arrayActors[i])
+                randomize = true;
+        }
+    }
+    if (randomize) {
+        int oldId = this->obj.id; 
+        this->obj.id = arrayActors[RAND_INT(ARRAY_COUNT(arrayActors))];
+        if (this->obj.id == OBJ_ACTOR_ZO_SUPPLYCRANE)
+            this->obj.pos.y += 150;
+        printf("Actor initialized with id %d, was randomized into id %d\n", oldId, this->obj.id);
+    } else {
+        printf("Actor initialized with id %d, was not randomized\n", this->obj.id);
+    }
     Object_SetInfo(&this->info, this->obj.id);
 }
 
@@ -395,7 +418,11 @@ void func_enmy_80061E48(Actor* this, f32 xPos, f32 yPos, f32 zPos) {
 
 void ActorEvent_Load(ActorEvent* this, ObjectInit* objInit, s32 index) {
     Vec3f src;
-
+    bool randomize = CVarGetInteger("gEventRando", 0) == 1;
+    if (randomize) {
+        int oldId = objInit->id;
+        objInit->id = RAND_INT(80) + ACTOR_EVENT_ID;
+    }
     Actor_Initialize(this);
     this->obj.status = OBJ_ACTIVE;
     this->index = index;

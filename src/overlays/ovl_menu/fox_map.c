@@ -3973,6 +3973,14 @@ bool Map_LevelCheckRepeats(void) {
 void Map_LevelStart_Update(void) {
     switch (sLevelStartState) {
         case 0:
+            if (CVarGetInteger("gRandomExpert", 0) == 1)
+            {
+                int expertChance = RAND_INT(100);
+                if (expertChance <= 50)
+                    gExpertMode = true;
+                else
+                    gExpertMode = false;
+            }
             if (CVarGetInteger("gStageRando", 0) == 1) {
                 srand(time(NULL));
                 int timesRandomized = 0;

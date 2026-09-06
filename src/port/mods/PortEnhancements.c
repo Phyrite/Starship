@@ -144,7 +144,7 @@ void OnDisplayUpdatePost(IEvent* event) {
         if ((gGameState != GSTATE_PLAY) || (gPlayState <= PLAY_INIT)) {
             return;
         }
-        gAdditionalLaserUps = 900;
+        gAdditionalLaserUps = 9000;
     }
 
     if (CVarGetInteger("gScoreEditor", 0) == 1) {

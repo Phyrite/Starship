@@ -1932,12 +1932,11 @@ void Bolse_BoBaseCore_Update(BoBaseCore* this) {
     }
 
     if (this->state == 2) {
+        if (this->damage >= 16 && this->dmgType != DMG_BEAM) {
+            this->damage = 3;
+        }
         if (this->dmgType != DMG_NONE) {
             this->dmgType = DMG_NONE;
-
-            if (this->damage >= 16) {
-                this->damage = 3;
-            }
 
             if (this->dmgPart < 8) {
                 this->swork[this->dmgPart] -= this->damage;
