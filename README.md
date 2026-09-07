@@ -5,9 +5,10 @@ This randomizer for Starship, the unofficial PC port of Star Fox 64, includes va
 
 # Setting Up
 
-If you haven't already, install Starship [here](https://github.com/HarbourMasters/Starship) and use the guide in the readme there to set it up. Please note that you are required to provide a ROM of your own.
+If you haven't already, install Starship [here](https://github.com/HarbourMasters/Starship) and use the guide in the readme there to set it up. Please note that you are required to provide a Star Fox 64 ROM of your own.
 
 Once you have Starship installed, grab the latest release. (Once one comes out, of course)
+
 Move the .exe to your Starship folder, and run it!
 
 # Randomization
@@ -15,11 +16,15 @@ Move the .exe to your Starship folder, and run it!
 All randomizer options are included in the new "randomization" tab in the F1 menu. These include:
 * Radio portrait randomization
 * Radio voiceline randomization
-* Stage randomization
+* Stage randomization (with an optional repeat toggle)
 * Music randomization
 * Engine color randomization
+* Expert mode randomization
 * Marathon mode, where you play through all 16 levels in one run!
-* A new survival mode???
+* A new laser tier that's red and infinitely upgradable!
+* Customize the amount of damage you take!
+* Enemy and event randomization...?
+* A new survival mode?
 
 # Special Thanks:
 
