@@ -29,6 +29,7 @@ extern s32 gRandomizedEngineColor[3];
 extern s32 gMarathonProgress;
 extern s32 gMarathonScores[16];
 extern s32 gPlayerNum;
+extern s32 starWolfState;
 extern s32 gCamCount;
 extern s32 gTeamShields[6];
 extern s32 gSavedTeamShields[6];

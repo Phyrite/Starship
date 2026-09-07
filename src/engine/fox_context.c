@@ -26,6 +26,7 @@ s32 gSavedWingStateLeft;
 s32 gRandomizedEngineColor[3];
 s32 gMarathonProgress;
 s32 gMarathonScores[16];
+s32 starWolfState;
 s32 gPlayerNum;
 s32 gCamCount;
 /**

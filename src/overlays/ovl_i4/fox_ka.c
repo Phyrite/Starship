@@ -2268,9 +2268,47 @@ void Katina_BillFighterInit(void) {
 }
 
 void Katina_UpdateEvents(ActorAllRange* this) {
+    ActorAllRange_UpdateStarWolfEvents(this);
     s32 pad[4];
     f32 D_i4_8019F494[5] = { -200.0f, -100.0f, -0.0f, 100.0f, 200.0f };
+    Player* player = &gPlayer[0];
+    ActorAllRange* falco = &gActors[AI360_FALCO];
+    ActorAllRange* slippy = &gActors[AI360_SLIPPY];
+    ActorAllRange* peppy = &gActors[AI360_PEPPY];
+    ActorAllRange* wolf = &gActors[AI360_WOLF];
+    if (CVarGetInteger("gExtraStarWolfs", 0) == 1) {
+        gAllRangeSpawnEvent = 160;
+        if (gAllRangeEventTimer == gAllRangeSpawnEvent) {
+            starWolfState = 1;
+        }
+        switch (starWolfState) {
+            case 1:
+                gStarWolfMsgTimer = 883;
+                starWolfState = 2;
+                break;
+            case 2:
+                player->cam.eye.x += wolf->vel.x * 0.23f;
+                player->cam.eye.y += wolf->vel.y * 0.23f;
+                player->cam.eye.z += wolf->vel.z * 0.23f;
 
+                Math_SmoothStepToF(&player->cam.at.x, wolf->obj.pos.x, 1.0f, 20000.0f, 0.0f);
+                Math_SmoothStepToF(&player->cam.at.y, wolf->obj.pos.y, 1.0f, 20000.0f, 0.0f);
+                Math_SmoothStepToF(&player->cam.at.z, wolf->obj.pos.z, 1.0f, 20000.0f, 0.0f);
+                Math_SmoothStepToF(&player->camRoll, 0.0f, 1.0f, 1000.0f, 0.0f);
+                if ((gControllerPress->button & START_BUTTON) || (gAllRangeEventTimer == (gAllRangeSpawnEvent + 260))) {
+                    player->state = PLAYERSTATE_ACTIVE;
+                    starWolfState = 3;
+                    this->state = 2;
+                    Camera_Update360(player, true);
+                    player->unk_014 = 0.0f;
+                    D_hud_80161708 = 0;
+                }
+                gPauseEnabled = false;
+                break;
+            default:
+                break;
+        }
+    }
     switch (this->state) {
         case 0:
             gProjectFar = 30000.0f;
@@ -2357,6 +2395,44 @@ void Katina_UpdateEvents(ActorAllRange* this) {
                     break;
             }
         }
+    }
+    if (gStarWolfMsgTimer > 0) {
+        gStarWolfMsgTimer--;
+        switch (gStarWolfMsgTimer) {
+            case 860:
+                if (gStarWolfTeamAlive[0] != 0) {
+                    Radio_PlayMessage(gMsg_ID_11100, RCID_WOLF);
+                }
+                break;
+
+            case 760:
+                if (gStarWolfTeamAlive[1] != 0) {
+                    Radio_PlayMessage(gMsg_ID_9260, RCID_LEON);
+                }
+                break;
+
+            case 660:
+                if (gStarWolfTeamAlive[2] != 0) {
+                    if (gTeamShields[TEAM_ID_PEPPY] > 0) {
+                        Radio_PlayMessage(gMsg_ID_9275, RCID_PIGMA);
+                    } else {
+                        Radio_PlayMessage(gMsg_ID_9270, RCID_PIGMA);
+                    }
+                }
+                break;
+
+            case 540:
+                if (gStarWolfTeamAlive[3] != 0) {
+                    Radio_PlayMessage(gMsg_ID_9280, RCID_ANDREW);
+                }
+                break;
+
+            case 380:
+                Radio_PlayMessage(gMsg_ID_9285, RCID_FOX);
+                break;
+        }
+    } else {
+        gStarWolfMsgTimer = 0;
     }
 }
 

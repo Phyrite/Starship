@@ -461,6 +461,7 @@ void Fortuna_ActorDebris_Setup(ActorDebris* this, Vec3f* pos, Vec3f* rot, f32 xV
     Actor_Initialize(this);
     this->obj.status = OBJ_ACTIVE;
     this->obj.id = OBJ_ACTOR_DEBRIS;
+    Actor_Randomize(this);
     this->state = state;
 
     this->obj.pos = *pos;

@@ -5922,6 +5922,7 @@ void Macbeth_MaBombDrop_Setup(MaBombDrop* this, f32 xPos, f32 yPos, f32 zPos, f3
     Actor_Initialize(this);
     this->obj.status = OBJ_INIT;
     this->obj.id = OBJ_ACTOR_MA_BOMBDROP;
+    Actor_Randomize(this);
 
     this->obj.pos.x = xPos;
     this->obj.pos.y = yPos;
@@ -6088,6 +6089,7 @@ void Macbeth_MaSpear_Setup(MaSpear* this, f32 xPos, f32 yPos, f32 zPos, f32 arg4
     Actor_Initialize(this);
     this->obj.status = OBJ_INIT;
     this->obj.id = OBJ_ACTOR_MA_SPEAR;
+    Actor_Randomize(this);
     this->obj.pos.x = xPos;
     this->obj.pos.y = yPos;
     this->obj.pos.z = zPos;
@@ -6316,6 +6318,7 @@ void Macbeth_MaShockBox_Setup(MaShockBox* this, f32 xPos, f32 yPos, f32 zPos, f3
     Actor_Initialize(this);
     this->obj.status = OBJ_INIT;
     this->obj.id = OBJ_ACTOR_MA_SHOCK_BOX;
+    Actor_Randomize(this);
     this->obj.pos.x = xPos;
     this->obj.pos.y = yPos;
     this->obj.pos.z = zPos;

@@ -965,6 +965,8 @@ void DrawRandomizationMenu() {
                       "Has a 50/50 chance to turn the game into expert mode or into normal mode upon entering a stage." });
             UIWidgets::CVarCheckbox("(UNSTABLE) Event Randomization", "gEventRando",
                                     { .tooltip = "Randomizes every \"event\" in a stage. WARNING: This option can lead to chaotic and possibly gamebreaking results! Use with caution." });
+            UIWidgets::CVarCheckbox("Extra Star Wolfs", "gExtraStarWolfs",
+                                    { .tooltip = "Makes Star Wolf appear on Katina, and always appear on Bolse." });
             UIWidgets::CVarSliderFloat("Damage Multiplier: %fx", "gDamageMultiplier", 0.0f, 5.0f, 1.0f);
             ImGui::EndMenu();
         }

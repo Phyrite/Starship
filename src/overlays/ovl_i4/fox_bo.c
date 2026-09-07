@@ -306,8 +306,9 @@ void Bolse_UpdateEventHandler(ActorEvent* this) {
             } else if ((gAllRangeCheckpoint == 1) && (((gHitCount - this->iwork[1]) >= 5) || (D_i4_801A0530 == 4000))) {
                 gAllRangeCheckpoint = 2;
                 this->iwork[1] = gHitCount;
-                if ((gStarWolfTeamAlive[0] != 0) || (gStarWolfTeamAlive[1] != 0) || (gStarWolfTeamAlive[2] != 0) ||
-                    (gStarWolfTeamAlive[3] != 0)) {
+                if (((gStarWolfTeamAlive[0] != 0) || (gStarWolfTeamAlive[1] != 0) || (gStarWolfTeamAlive[2] != 0) ||
+                     (gStarWolfTeamAlive[3] != 0)) ||
+                    CVarGetInteger("gExtraStarWolfs", 0) == 1) {
                     gAllRangeSpawnEvent = gAllRangeEventTimer + 120;
                     gStarWolfMsgTimer = 1000;
                 }

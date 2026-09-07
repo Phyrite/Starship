@@ -1125,27 +1125,30 @@ void PlayerShot_DrawLaser(PlayerShot* shot) {
                     dList = D_101AD20;
                     break;
                 case LASERS_UPGRADABLE:
-                    dList = D_101AD20;
+                    dList = D_101ABD0;
                     break;
             }
             if (gCurrentLevel == LEVEL_AQUAS) {
                 twinLaserSeparation = 4.0f;
             }
-            Matrix_Scale(gGfxMatrix, width, width, length, MTXF_APPLY);
-            Matrix_RotateY(gGfxMatrix, M_PI, MTXF_APPLY);
-            Matrix_Translate(gGfxMatrix, twinLaserSeparation, 0.f, 0.0f, MTXF_APPLY);
-            Matrix_SetGfxMtx(&gMasterDisp);
-            gSPDisplayList(gMasterDisp++, dList);
-            if (gLaserStrength[0] == LASERS_UPGRADABLE) {
-                gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 180, 0, 255, 255);
-                gDPSetEnvColor(gMasterDisp++, 120, 0, 200, 255);
-            }
-            Matrix_Translate(gGfxMatrix, -(2.0f * twinLaserSeparation), 0.0f, 0.f, MTXF_APPLY);
-            Matrix_SetGfxMtx(&gMasterDisp);
-            gSPDisplayList(gMasterDisp++, dList);
-            if (gLaserStrength[0] == LASERS_UPGRADABLE) {
-                gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 180, 0, 255, 255);
-                gDPSetEnvColor(gMasterDisp++, 120, 0, 200, 255);
+            if (gLaserStrength[0] < LASERS_UPGRADABLE) {
+                Matrix_Scale(gGfxMatrix, width, width, length, MTXF_APPLY);
+                Matrix_RotateY(gGfxMatrix, M_PI, MTXF_APPLY);
+                Matrix_Translate(gGfxMatrix, twinLaserSeparation, 0.f, 0.0f, MTXF_APPLY);
+                Matrix_SetGfxMtx(&gMasterDisp);
+                gSPDisplayList(gMasterDisp++, dList);
+                Matrix_Translate(gGfxMatrix, -(2.0f * twinLaserSeparation), 0.0f, 0.f, MTXF_APPLY);
+                Matrix_SetGfxMtx(&gMasterDisp);
+                gSPDisplayList(gMasterDisp++, dList);
+            } else {
+                Matrix_Scale(gGfxMatrix, 1.2f, 1.2f, 6.0f, MTXF_APPLY);
+                Matrix_RotateY(gGfxMatrix, M_PI, MTXF_APPLY);
+                Matrix_Translate(gGfxMatrix, (3.0f * twinLaserSeparation), 0.f, 5.0f, MTXF_APPLY);
+                Matrix_SetGfxMtx(&gMasterDisp);
+                gSPDisplayList(gMasterDisp++, dList);
+                Matrix_Translate(gGfxMatrix, -(6.0f * twinLaserSeparation), 0.f, 5.0f, MTXF_APPLY);
+                Matrix_SetGfxMtx(&gMasterDisp);
+                gSPDisplayList(gMasterDisp++, dList);
             }
         } else {
             var_a1 = 0;

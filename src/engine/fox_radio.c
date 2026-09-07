@@ -898,7 +898,7 @@ void Radio_Draw(void) {
             (radioCharId == RCID_ANDREW) || (radioCharId == RCID_WOLF_2) || (radioCharId == RCID_PIGMA_2) ||
              (radioCharId == RCID_LEON_2) || (radioCharId == RCID_ANDREW_2)) &&
                 (gCurrentLevel == LEVEL_FORTUNA ||
-            gCurrentLevel == LEVEL_BOLSE || gCurrentLevel == LEVEL_VENOM_2)) {
+            gCurrentLevel == LEVEL_BOLSE || gCurrentLevel == LEVEL_VENOM_2 || (gCurrentLevel == LEVEL_KATINA && CVarGetInteger("gExtraStarWolfs", 0) == 1))) {
             switch (radioCharId) {
                 case RCID_WOLF:
 

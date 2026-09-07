@@ -1932,6 +1932,7 @@ void Meteo_8018C8F4(MeMeteor2* this, ActorCutscene* actorCs) {
     Actor_Initialize(this);
     this->obj.status = OBJ_INIT;
     this->obj.id = OBJ_ACTOR_ME_METEOR_2;
+    Actor_Randomize(this);
 
     this->obj.pos.x = RAND_FLOAT_CENTERED_SEEDED(2000.0f) + actorCs->obj.pos.x;
     this->obj.pos.y = RAND_FLOAT_CENTERED_SEEDED(2000.0f) + actorCs->obj.pos.y;
@@ -1949,6 +1950,7 @@ void Meteo_8018CA10(MeMeteor2* this, ActorCutscene* actorCs, f32 x, f32 y, f32 z
     Actor_Initialize(this);
     this->obj.status = OBJ_INIT;
     this->obj.id = OBJ_ACTOR_ME_METEOR_2;
+    Actor_Randomize(this);
 
     this->obj.pos.x = actorCs->obj.pos.x + x;
     this->obj.pos.y = actorCs->obj.pos.y + y;

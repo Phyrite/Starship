@@ -1185,9 +1185,9 @@ void Display_ArwingLaserCharge(Player* player) {
                         upgradeEffects = 128;
                     else
                         upgradeEffects = gAdditionalLaserUps * 10;
-                    gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 180 + (upgradeEffects / 2),
-                                    64 + upgradeEffects * 0.95, 255, 200);
-                    gDPSetEnvColor(gMasterDisp++, 120 + upgradeEffects, 0 + upgradeEffects * 1.9, 255, 200);
+                    gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 255, 64 + upgradeEffects * 1.4,
+                                    64 + upgradeEffects * 1.4, 200);
+                    gDPSetEnvColor(gMasterDisp++, 255, 32 + upgradeEffects * 1.6, 32 + upgradeEffects * 1.6, 200);
                 }
                 Matrix_MultVec3f(gCalcMatrix, &spAC, &sp94);
                 Matrix_MultVec3f(gCalcMatrix, &spA0, &sp88);

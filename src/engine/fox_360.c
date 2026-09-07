@@ -442,8 +442,9 @@ void ActorAllRange_SpawnStarWolf(void) {
     s32 i;
 
     for (i = 0, actor = &gActors[4]; i < ARRAY_COUNT(sStarWolfSpawnPos); i++, actor++) {
-        if (gStarWolfTeamAlive[i] != 0) {
+        if (gStarWolfTeamAlive[i] != 0 || CVarGetInteger("gExtraStarWolfs", 0) == 1) {
             Actor_Initialize(actor);
+            gStarWolfTeamAlive[i] = 1;
             actor->obj.status = OBJ_ACTIVE;
             actor->obj.pos.x = sStarWolfSpawnPos[i].x;
             actor->obj.pos.y = sStarWolfSpawnPos[i].y;
@@ -518,6 +519,8 @@ void ActorAllRange_UpdateStarWolfEvents(ActorAllRange* this) {
             gPlayer[0].cam.eye.x = 4500.0f;
         } else if (gCurrentLevel == LEVEL_BOLSE) {
             gPlayer[0].cam.eye.x = 5500.0f;
+        } else {
+            gPlayer[0].cam.eye.x = 4500.0f;
         }
         gPlayer[0].cam.eye.y = 2500.0f;
         gPlayer[0].cam.eye.z = 5000.0f;

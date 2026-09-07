@@ -449,6 +449,7 @@ void Titania_TiBoulder_Setup(TiBoulder* this, f32 xPos, f32 yPos, f32 zPos, f32 
     Actor_Initialize(this);
     this->obj.status = OBJ_ACTIVE;
     this->obj.id = OBJ_ACTOR_TI_BOULDER;
+    Actor_Randomize(this);
     this->timer_0BC = RAND_INT(20.0f) + 20;
     this->timer_0C2 = 8;
     this->vel.x = xVel;

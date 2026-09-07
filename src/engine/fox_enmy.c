@@ -243,7 +243,61 @@ int arrayActors[] = { OBJ_ACTOR_CO_GARUDA_1,       OBJ_ACTOR_ME_METEOR_1,   OBJ_
                     OBJ_ACTOR_ZO_SUPPLYCRANE,     OBJ_ACTOR_ZO_OBNEMA,          OBJ_ACTOR_ZO_BIRD,
                     OBJ_ACTOR_ZO_CONTAINER,
                     OBJ_ACTOR_ZO_TANKER,
-                    OBJ_ACTOR_ZO_MINE };
+                      OBJ_ACTOR_ZO_MINE,
+                      OBJ_ACTOR_TI_LANDMINE,
+                      OBJ_ACTOR_TI_DESERT_ROVER,
+                      OBJ_ACTOR_TI_DELPHOR,
+                      OBJ_ACTOR_TI_BOMB,
+                      OBJ_ACTOR_TI_FEKUDA,
+                      OBJ_ACTOR_TI_DESERT_CRAWLER,
+                      OBJ_ACTOR_AQ_ANGLERFISH,
+                      OBJ_ACTOR_SZ_SPACE_JUNK,
+                      OBJ_ACTOR_AQ_OYSTER,
+                      OBJ_ACTOR_AQ_SQUID,
+                      OBJ_ACTOR_AQ_SCULPIN,
+                      OBJ_ACTOR_FO_RADAR,
+                      OBJ_ACTOR_BO_LASER_CANNON,
+                      OBJ_ACTOR_MA_BOULDER,
+                      OBJ_ACTOR_MA_BARRIER,
+                      OBJ_ACTOR_MA_FALLING_BOULDER,
+                      OBJ_ACTOR_MA_BOMBDROP,
+                      OBJ_ACTOR_MA_SPEAR,
+                      OBJ_ACTOR_MA_SHOCK_BOX,
+                      OBJ_ACTOR_TI_RASCO,
+                      OBJ_ACTOR_AQ_BOULDER,
+                      OBJ_ACTOR_AQ_CORAL,
+                      OBJ_ACTOR_CO_RADAR,
+                      OBJ_ACTOR_CO_GARUDA_2,
+                      OBJ_ACTOR_CO_GARUDA_3,
+                      OBJ_ACTOR_ZO_TROIKA,
+                      OBJ_ACTOR_ZO_SHRIMP,
+                      OBJ_ACTOR_ZO_FISH,
+                      OBJ_ACTOR_SO_ROCK_1,
+                      OBJ_ACTOR_SO_ROCK_2,
+                      OBJ_ACTOR_SO_ROCK_3,
+                      OBJ_ACTOR_VE1_MONKEY_STATUE,
+                      OBJ_ACTOR_AQ_STONE_COLUMN,
+                      OBJ_ACTOR_AQ_SPINDLYFISH,
+                      OBJ_ACTOR_SO_PROMINENCE };
+void Actor_Randomize(Actor* this)
+{
+    bool randomize = false;
+    if (CVarGetInteger("gActorRando", 0) == 1) {
+        for (int i = 0; i < ARRAY_COUNT(arrayActors); i++) {
+            if (this->obj.id == arrayActors[i])
+                randomize = true;
+        }
+    }
+    if (randomize) {
+        int oldId = this->obj.id;
+        this->obj.id = arrayActors[RAND_INT(ARRAY_COUNT(arrayActors))];
+        if (this->obj.id == OBJ_ACTOR_ZO_SUPPLYCRANE)
+            this->obj.pos.y += 150;
+        printf("Actor initialized with id %d, was randomized into id %d\n", oldId, this->obj.id);
+    } else {
+        printf("Actor initialized with id %d, was not randomized\n", this->obj.id);
+    }
+}
 
 void Actor_Load(Actor* this, ObjectInit* objInit) {
     Actor_Initialize(this);
@@ -256,22 +310,7 @@ void Actor_Load(Actor* this, ObjectInit* objInit) {
     this->obj.rot.x = objInit->rot.x;
     this->obj.rot.z = objInit->rot.z;
     this->obj.id = objInit->id;
-    bool randomize = false;
-    if (CVarGetInteger("gActorRando", 0) == 1) {
-        for (int i = 0; i < ARRAY_COUNT(arrayActors); i++) {
-            if (this->obj.id == arrayActors[i])
-                randomize = true;
-        }
-    }
-    if (randomize) {
-        int oldId = this->obj.id; 
-        this->obj.id = arrayActors[RAND_INT(ARRAY_COUNT(arrayActors))];
-        if (this->obj.id == OBJ_ACTOR_ZO_SUPPLYCRANE)
-            this->obj.pos.y += 150;
-        printf("Actor initialized with id %d, was randomized into id %d\n", oldId, this->obj.id);
-    } else {
-        printf("Actor initialized with id %d, was not randomized\n", this->obj.id);
-    }
+    Actor_Randomize(this);
     Object_SetInfo(&this->info, this->obj.id);
 }
 

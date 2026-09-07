@@ -317,6 +317,7 @@ void Solar_8019EF30(Actor* this, f32 xPos, f32 yPos, f32 zPos, f32 xVel, f32 yVe
     Actor_Initialize(this);
     this->obj.status = OBJ_ACTIVE;
     this->obj.id = OBJ_ACTOR_SO_ROCK_1;
+    Actor_Randomize(this);
 
     if (Rand_ZeroOne() < 0.1f) {
         this->obj.id = OBJ_ACTOR_SO_ROCK_2;
@@ -358,6 +359,7 @@ void Solar_8019F0B0(SoRock1* this, f32 xPos, f32 yPos, f32 zPos, f32 xVel, f32 y
     Actor_Initialize(this);
     this->obj.status = OBJ_ACTIVE;
     this->obj.id = OBJ_ACTOR_SO_ROCK_3;
+    Actor_Randomize(this);
 
     this->obj.pos.x = xPos;
     this->obj.pos.y = yPos;
@@ -944,7 +946,7 @@ void Solar_801A0CEC(SoWave* this, f32 xPos, f32 zPos, f32 zVel, s32 unkB8) {
     Actor_Initialize(this);
     this->obj.status = OBJ_ACTIVE;
     this->obj.id = OBJ_ACTOR_SO_WAVE;
-
+    Actor_Randomize(this);
     this->obj.pos.x = xPos;
     this->obj.pos.z = zPos;
     this->work_046 = 1;

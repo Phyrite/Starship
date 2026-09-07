@@ -630,7 +630,6 @@ void Game_Update(void) {
 Actor* Game_SpawnActor(ObjectId objId) {
     Actor* actor = &gActors[0];
     s32 i;
-
     for (i = 0; i < ARRAY_COUNT(gActors); i++, actor++) {
         if (actor->obj.status == OBJ_FREE) {
             Actor_Initialize(actor);
