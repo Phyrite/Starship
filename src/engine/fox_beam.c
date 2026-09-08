@@ -1128,8 +1128,17 @@ void PlayerShot_DrawLaser(PlayerShot* shot) {
                     dList = D_101ABD0;
                     break;
             }
+            float yMod = 0.0f;
+            float zMod = 0.0f;
+            float xMod = 0.0f;
             if (gCurrentLevel == LEVEL_AQUAS) {
+                if (gLaserStrength[0] < LASERS_UPGRADABLE)
                 twinLaserSeparation = 4.0f;
+                else
+                    twinLaserSeparation = 6.0f;
+                yMod = 2.0f;
+                zMod = 10.0f;
+                xMod = 2.0f;
             }
             if (gLaserStrength[0] < LASERS_UPGRADABLE) {
                 Matrix_Scale(gGfxMatrix, width, width, length, MTXF_APPLY);
@@ -1143,10 +1152,10 @@ void PlayerShot_DrawLaser(PlayerShot* shot) {
             } else {
                 Matrix_Scale(gGfxMatrix, 1.2f, 1.2f, 6.0f, MTXF_APPLY);
                 Matrix_RotateY(gGfxMatrix, M_PI, MTXF_APPLY);
-                Matrix_Translate(gGfxMatrix, (3.0f * twinLaserSeparation), 0.f, 5.0f, MTXF_APPLY);
+                Matrix_Translate(gGfxMatrix, (3.0f * twinLaserSeparation) + xMod, 0.f + yMod, 10.0f + zMod, MTXF_APPLY);
                 Matrix_SetGfxMtx(&gMasterDisp);
                 gSPDisplayList(gMasterDisp++, dList);
-                Matrix_Translate(gGfxMatrix, -(6.0f * twinLaserSeparation), 0.f, 5.0f, MTXF_APPLY);
+                Matrix_Translate(gGfxMatrix, -(6.0f * twinLaserSeparation) - xMod, 0.f, 10.0f - zMod, MTXF_APPLY);
                 Matrix_SetGfxMtx(&gMasterDisp);
                 gSPDisplayList(gMasterDisp++, dList);
             }

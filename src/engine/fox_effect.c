@@ -3913,6 +3913,7 @@ void Effect_Effect395_Update(Effect395* this) {
         Effect_Effect353_354_Update(this);
     }
     if ((this->state < 4) && (this->state != 1)) {
+        sp84 = 50.0f;
         func_effect_8007A774(gPlayer, this, sp84);
     }
 }

@@ -562,7 +562,7 @@ void Background_DrawBackdrop(void) {
                                 }
                                 break;
                             case LEVEL_FORTUNA:
-                                gSPDisplayList(gMasterDisp++, D_FO_600D9F0);
+                                gSPDisplayList(gMasterDisp++, D_FO_600D9F0 );
                                 break;
                             case LEVEL_KATINA:
                                 gSPDisplayList(gMasterDisp++, D_KA_600F1D0);
