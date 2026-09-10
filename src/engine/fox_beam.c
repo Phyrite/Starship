@@ -683,6 +683,8 @@ void PlayerShot_ApplyDamageToActor(PlayerShot* shot, Actor* actor, s32 hitIndex)
             (gActors[shot->sourceId - NPC_SHOT_ID].iwork[12] == TEAM_ID_BILL)) {
             actor->damage = 30;
         }
+    } else if (gPlayer[shot->sourceId].form == FORM_LANDMASTER) {
+        actor->damage = 10 + (gAdditionalLaserUps * 0.5);
     }
     if (shot->obj.id == PLAYERSHOT_GFOX_LASER) {
         actor->damage = 100;

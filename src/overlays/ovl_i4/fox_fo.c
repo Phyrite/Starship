@@ -57,6 +57,7 @@ void Fortuna_SpawnEnemies(ActorEvent* this) {
                     enemy->health = 24;
                     enemy->drawShadow = enemy->iwork[11] = 1;
                     enemy->itemDrop = DROP_SILVER_RING_50p;
+                    Actor_Randomize(enemy);
                     Object_SetInfo(&enemy->info, enemy->obj.id);
                     AUDIO_PLAY_SFX(NA_SE_EN_ENGINE_01, enemy->sfxSource, 4);
                     break;
@@ -1491,6 +1492,7 @@ void Fortuna_LoadLevelObjects(void) {
             actor->obj.pos.x = gLevelObjects[i].xPos;
             actor->obj.pos.z = gLevelObjects[i].zPos1;
             actor->obj.pos.y = gLevelObjects[i].yPos;
+            Actor_Randomize(actor);
             Object_SetInfo(&actor->info, actor->obj.id);
             actor++;
         }

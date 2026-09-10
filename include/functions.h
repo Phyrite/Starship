@@ -146,6 +146,7 @@ bool func_enmy_80060FE4(Vec3f*, f32);
 void Object_SetInfo(ObjectInfo* info, u32 objId);
 void Scenery_Initialize(Scenery*);
 void Sprite_Initialize(Sprite*);
+void Actor_Initialize(Boss*);
 void Actor_Randomize(Actor*);
 void Boss_Initialize(Boss*);
 void Item_Initialize(Item*);

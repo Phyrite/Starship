@@ -3202,11 +3202,11 @@ void Player_ArwingLaser(Player* player) {
                         gMuzzleFlashScale[player->num] = 0.75f;
                     } else {
                         Player_PlaySfx(player->sfxSource, NA_SE_ARWING_TWIN_LASER2, player->num);
-                        float upgradeEffects = (float) (gAdditionalLaserUps / 10);
-                        if (upgradeEffects > 0.5f)
-                            upgradeEffects = 0.5f;
+                        float upgradeEffects = (float) (gAdditionalLaserUps / 12);
+                        if (upgradeEffects > 0.4f)
+                            upgradeEffects = 0.4f;
                             
-                        gMuzzleFlashScale[player->num] = 1.0f + upgradeEffects;
+                        gMuzzleFlashScale[player->num] = 0.9f + upgradeEffects;
                     }
                     break;
                 }

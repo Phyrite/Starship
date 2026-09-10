@@ -58,7 +58,7 @@ void SectorZ_MissileExplode(ActorAllRange* this, bool shotDown) {
     if (shotDown) {
         sMissileDestroyCount++;
         if ((sMissileDestroyCount >= 6) &&
-            ((gPlayer[0].state == PLAYERSTATE_ACTIVE) || (gPlayer[0].state == PLAYERSTATE_U_TURN))) {
+            ((gPlayer[0].state == PLAYERSTATE_ACTIVE) || (gPlayer[0].state == PLAYERSTATE_U_TURN)) && gCurrentLevel == LEVEL_SECTOR_Z) {
             gCsFrameCount = 0;
             gPlayer[0].state = PLAYERSTATE_LEVEL_COMPLETE;
             gPlayer[0].csState = 1000;
@@ -1919,6 +1919,7 @@ void SectorZ_LoadLevelObjects(void) {
             actor->health = 24;
             actor->rot_0F4.x = RAND_FLOAT_CENTERED(4.0f);
             actor->rot_0F4.y = RAND_FLOAT_CENTERED(4.0f);
+            Actor_Randomize(actor);
             Object_SetInfo(&actor->info, actor->obj.id);
             actor->itemDrop = DROP_SILVER_RING;
 

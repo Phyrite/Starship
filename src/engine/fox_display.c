@@ -1181,10 +1181,10 @@ void Display_ArwingLaserCharge(Player* player) {
                     gDPSetEnvColor(gMasterDisp++, 128, 128, 255, 160);
                 } else {
                     int upgradeEffects = 0;
-                    if (gAdditionalLaserUps * 10 > 128)
+                    if (gAdditionalLaserUps * 4 > 128)
                         upgradeEffects = 128;
                     else
-                        upgradeEffects = gAdditionalLaserUps * 10;
+                        upgradeEffects = gAdditionalLaserUps * 4;
                     gDPSetPrimColor(gMasterDisp++, 0x00, 0x00, 255, 64 + upgradeEffects * 1.4,
                                     64 + upgradeEffects * 1.4, 200);
                     gDPSetEnvColor(gMasterDisp++, 255, 32 + upgradeEffects * 1.6, 32 + upgradeEffects * 1.6, 200);

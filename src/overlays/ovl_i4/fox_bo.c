@@ -185,6 +185,7 @@ void Bolse_SpawnEnemies(ActorEvent* this, s32 count) {
 
             enemy->health = 24;
             enemy->iwork[11] = 1;
+            Actor_Randomize(enemy);
 
             if (D_i4_801A0530 < 16000) {
                 enemy->itemDrop = DROP_SILVER_RING_50p;
@@ -2169,6 +2170,7 @@ void Bolse_LoadLevelObjects(void) {
             actor->fwork[11] = actor->obj.pos.y = gLevelObjects[i].yPos;
             actor->fwork[12] = actor->obj.pos.z = -gLevelObjects[i].zPos1;
             actor->fwork[13] = actor->obj.rot.y = gLevelObjects[i].rot.y;
+            Actor_Randomize(actor);
             Object_SetInfo(&actor->info, actor->obj.id);
             actor++;
         }

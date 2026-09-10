@@ -805,7 +805,7 @@ void Katina_BossSpawnEnemies(KaSaucerer* this, Vec3f* pos, f32 arg2) {
             if (D_i4_801A0540 < 9600) {
                 actor->itemDrop = DROP_SILVER_RING_10p;
             }
-
+            Actor_Randomize(actor);
             actor->timer_0C2 = 30;
             actor->timer_0C4 = 400;
 
@@ -2740,10 +2740,14 @@ void Katina_EnemyDraw(ActorAllRange* this) {
 
     switch (this->animFrame) {
         case 0:
+            if (this->aiType == AI360_MISSILE) {
+                ActorAllRange_Draw(this);
+            } else {
             if (this->iwork[KA_ACTOR_LOW_POLY]) {
                 gSPDisplayList(gMasterDisp++, aKaEnemyLowPolyDL);
             } else {
-                gSPDisplayList(gMasterDisp++, aKaEnemyDL);
+                    gSPDisplayList(gMasterDisp++, aKaEnemyDL);
+                }
             }
             break;
 

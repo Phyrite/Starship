@@ -238,13 +238,12 @@ void Sprite_Load(Sprite* this, ObjectInit* objInit) {
     Object_SetInfo(&this->info, this->obj.id);
 }
 
-int arrayActors[] = { OBJ_ACTOR_CO_GARUDA_1,       OBJ_ACTOR_ME_METEOR_1,   OBJ_ACTOR_CO_SKIBOT, OBJ_ACTOR_ME_METEOR_SHOWER_1,
-                    OBJ_ACTOR_ME_METEOR_SHOWER_2, OBJ_ACTOR_ME_METEOR_SHOWER_3, OBJ_ACTOR_ME_HOPBOT,      OBJ_ACTOR_ME_LASER_CANNON_2,  OBJ_ACTOR_ME_LASER_CANNON_1,  OBJ_ACTOR_ZO_RADARBUOY,
+int arrayActors[] = { OBJ_ACTOR_CO_GARUDA_1,   OBJ_ACTOR_CO_SKIBOT, OBJ_ACTOR_ME_METEOR_SHOWER_1,
+                    OBJ_ACTOR_ME_METEOR_SHOWER_2, OBJ_ACTOR_ME_METEOR_SHOWER_3, OBJ_ACTOR_ME_HOPBOT,  OBJ_ACTOR_ME_LASER_CANNON_1,  OBJ_ACTOR_ZO_RADARBUOY,
                     OBJ_ACTOR_ZO_SUPPLYCRANE,     OBJ_ACTOR_ZO_OBNEMA,          OBJ_ACTOR_ZO_BIRD,
                     OBJ_ACTOR_ZO_CONTAINER,
                     OBJ_ACTOR_ZO_TANKER,
                       OBJ_ACTOR_ZO_MINE,
-                      OBJ_ACTOR_TI_LANDMINE,
                       OBJ_ACTOR_TI_DESERT_ROVER,
                       OBJ_ACTOR_TI_DELPHOR,
                       OBJ_ACTOR_TI_BOMB,
@@ -278,7 +277,8 @@ int arrayActors[] = { OBJ_ACTOR_CO_GARUDA_1,       OBJ_ACTOR_ME_METEOR_1,   OBJ_
                       OBJ_ACTOR_VE1_MONKEY_STATUE,
                       OBJ_ACTOR_AQ_STONE_COLUMN,
                       OBJ_ACTOR_AQ_SPINDLYFISH,
-                      OBJ_ACTOR_SO_PROMINENCE };
+                      OBJ_ACTOR_SO_PROMINENCE,
+                      OBJ_ACTOR_SY_ROBOT };
 void Actor_Randomize(Actor* this)
 {
     bool randomize = false;
@@ -286,6 +286,13 @@ void Actor_Randomize(Actor* this)
         for (int i = 0; i < ARRAY_COUNT(arrayActors); i++) {
             if (this->obj.id == arrayActors[i])
                 randomize = true;
+        }
+        if (this->obj.id == OBJ_ACTOR_ALLRANGE) {
+            int randomChance = RAND_INT(100);
+            if (randomChance < 6) {
+                this->aiType = AI360_MISSILE;
+                this->health = 300;
+            }
         }
     }
     if (randomize) {
