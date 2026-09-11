@@ -477,6 +477,98 @@ void ActorAllRange_SpawnStarWolf(void) {
     }
 }
 
+void ActorAllRange_SpawnRandomAllies() {
+    int kattTimer = 350;
+    int billTimer = 550;
+    if (CVarGetInteger("gBillKatt", 0) == 1) {
+        int kattChance = RAND_INT(2);
+        int billChance = RAND_INT(2);
+        ActorAllRange* katt = &gActors[AI360_KATT];
+        ActorAllRange* bill = &gActors[AI360_BILL];
+        if (gCurrentLevel == LEVEL_VENOM_2 ||
+            (gCurrentLevel == LEVEL_KATINA && CVarGetInteger("gExtraStarWolfs", 0) == 1)) {
+            kattTimer = 1140;
+            billTimer = 1350;
+        }
+        if (gAllRangeEventTimer == kattTimer && gCurrentLevel != LEVEL_SECTOR_Z && kattChance == 1) {
+            int kattDialogue = RAND_INT(3);
+            if (kattDialogue == 0)
+                Radio_PlayMessage(gMsg_ID_16120, RCID_KATT);
+            else if (kattDialogue == 1)
+                Radio_PlayMessage(gMsg_ID_17130, RCID_KATT);
+            else
+                Radio_PlayMessage(gMsg_ID_16130, RCID_KATT);
+            Actor_Initialize(katt);
+            katt->obj.status = OBJ_ACTIVE;
+            katt->obj.id = OBJ_ACTOR_ALLRANGE;
+
+            katt->obj.pos.x = 0.0f;
+            katt->obj.pos.y = 5000.0f;
+            katt->obj.pos.z = 10000.0f;
+
+            katt->aiType = AI360_KATT;
+            katt->aiIndex = AI360_ENEMY + 2;
+            katt->health = 10000;
+            katt->rot_0F4.y = 180.0f;
+            katt->state = 0;
+            katt->timer_0BC = 250;
+            katt->rot_0F4.x = -20.0f;
+            katt->iwork[11] = 1;
+            katt->obj.rot.z = 90.0f;
+
+            Object_SetInfo(&katt->info, katt->obj.id);
+
+            katt->info.targetOffset = 0.0f;
+            Audio_PlayFanfare(NA_BGM_KATT, 20, 10, 10);
+            AUDIO_PLAY_SFX(NA_SE_EN_ENGINE_01, katt->sfxSource, 4);
+        }
+        if (gAllRangeEventTimer == billTimer && gCurrentLevel != LEVEL_KATINA && billChance == 1) {
+            int billDialogue = RAND_INT(3);
+            if (billDialogue == 0)
+                Radio_PlayMessage(gMsg_ID_18120, RCID_BILL);
+            else if (billDialogue == 1)
+                Radio_PlayMessage(gMsg_ID_18000, RCID_BILL);
+            else
+                Radio_PlayMessage(gMsg_ID_10200, RCID_BILL);
+
+            Actor_Initialize(bill);
+            bill->obj.status = OBJ_ACTIVE;
+            bill->obj.id = OBJ_ACTOR_ALLRANGE;
+
+            bill->obj.pos.x = 0.0f;
+            bill->obj.pos.y = 5000.0f;
+            bill->obj.pos.z = 10000.0f;
+
+            bill->aiType = AI360_BILL;
+            bill->aiIndex = AI360_ENEMY + 1;
+            bill->health = 10000;
+            bill->rot_0F4.y = 180.0f;
+            bill->state = 0;
+            bill->timer_0BC = 250;
+            bill->rot_0F4.x = -20.0f;
+            bill->iwork[11] = 1;
+            bill->obj.rot.z = 90.0f;
+
+            Object_SetInfo(&bill->info, bill->obj.id);
+
+            bill->info.targetOffset = 0.0f;
+            Audio_PlayFanfare(NA_BGM_BILL, 20, 10, 10);
+
+            AUDIO_PLAY_SFX(NA_SE_EN_ENGINE_01, bill->sfxSource, 4);
+        }
+        if (gCurrentLevel == LEVEL_VENOM_2 || gStarWolfMsgTimer == 1) {
+            if (gStarWolfTeamAlive[1])
+                katt->aiIndex = AI360_LEON;
+            else if (gStarWolfTeamAlive[2])
+                katt->aiIndex = AI360_ANDREW;
+            if (gStarWolfTeamAlive[0])
+                bill->aiIndex = AI360_WOLF;
+            else if (gStarWolfTeamAlive[2])
+                bill->aiIndex = AI360_PIGMA;
+        } 
+    }
+}
+
 void ActorAllRange_PlayMessage(u16* msg, RadioCharacterId character) {
     if (!gHideRadio && (gActors[0].state == STATE360_2) && (gPlayer[0].state != PLAYERSTATE_STANDBY)) {
         Radio_PlayMessage(msg, character);
@@ -718,6 +810,8 @@ void ActorAllRange_UpdateEvents(Actor* this) {
         Object_Kill(&this->obj, this->sfxSource);
         return;
     }
+
+    ActorAllRange_SpawnRandomAllies();
 
     gAllRangeEventTimer++;
 

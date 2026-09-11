@@ -122,7 +122,7 @@ void Fortuna_UpdateEvents(ActorEvent* this) {
     if (gAllRangeEventTimer == 50) {
         Radio_PlayMessage(gMsg_ID_9000, RCID_FOX);
     }
-
+    
     if ((gAllRangeEventTimer + 400) == (0, gAllRangeSpawnEvent)) {
         Radio_PlayMessage(gMsg_ID_9010, RCID_SLIPPY);
     }

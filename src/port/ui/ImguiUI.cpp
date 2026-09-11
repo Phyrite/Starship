@@ -963,11 +963,13 @@ void DrawRandomizationMenu() {
                 "Random Expert Mode", "gRandomExpert",
                 { .tooltip =
                       "Has a 50/50 chance to turn the game into expert mode or into normal mode upon entering a stage." });
-            UIWidgets::CVarCheckbox("(UNSTABLE) Event Randomization", "gEventRando",
-                                    { .tooltip = "Randomizes every \"event\" in a stage. WARNING: This option can lead to chaotic and possibly gamebreaking results! Use with caution." });
             UIWidgets::CVarCheckbox("Extra Star Wolfs", "gExtraStarWolfs",
                                     { .tooltip = "Makes Star Wolf appear on Katina, and always appear on Bolse." });
-            UIWidgets::CVarSliderFloat("Damage Multiplier: %fx", "gDamageMultiplier", 0.0f, 5.0f, 1.0f);
+            UIWidgets::CVarCheckbox("Random Bill/Katt", "gBillKatt",
+                                    { .tooltip = "Makes Bill and Katt randomly appear on all-range mode stages they are not normally in. They both have a 50% chance of appearing each." });
+            UIWidgets::CVarCheckbox("(UNSTABLE) Event Randomization", "gEventRando",
+                                    { .tooltip = "Randomizes every \"event\" in a stage. WARNING: This option can lead "
+                                                 "to chaotic and possibly gamebreaking results! Use with caution." });
             ImGui::EndMenu();
         }
         UIWidgets::CVarCheckbox("Randomize Items", "gItemRando");
@@ -978,6 +980,7 @@ void DrawRandomizationMenu() {
         UIWidgets::CVarCheckbox("Randomize Engine Glow", "gEngineRando");
         UIWidgets::CVarCheckbox("Enemy/Actor Randomization", "gActorRando",
                                 { .tooltip = "Randomizes certain enemies, obstacles, and more across stages and locations." });
+        UIWidgets::CVarSliderFloat("Damage Multiplier: %fx", "gDamageMultiplier", 0.0f, 5.0f, 1.0f);
         ImGui::EndMenu();
     }
 

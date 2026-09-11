@@ -31,6 +31,7 @@ void ActorAllRange_ApplyDamage(Actor*);
 bool func_360_80031900(Actor*);
 void ActorAllRange_Update(Actor* this);
 void ActorAllRange_Draw(Actor* this);
+void ActorAllRange_SpawnRandomAllies(void);
 
 //fox_beam
 void PlayerShot_CollisionCheck(PlayerShot* shot);

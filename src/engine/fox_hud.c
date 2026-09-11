@@ -1320,8 +1320,10 @@ void HUD_Bolse_Area6_SaveData(void) {
             }
         }
 
+        gMarathonScores[gMarathonProgress] = gHitCount;
         gMissionNumber++;
         gHitCount = 0;
+        gMarathonProgress++;
 
         Save_Write();
     }
@@ -1681,7 +1683,27 @@ void HUD_PauseScreen_Update(void) {
 
                 Lib_TextureRect_IA8(&gMasterDisp, sLevelTitleCard[j].titleCardTex, sLevelTitleCard[j].titleCardWidth,
                                     sLevelTitleCard[j].titleCardHeight, x2, y2 + i, 1.0f, 1.0f);
-
+                if (CVarGetInteger("gMarathon", 0) == 1) {
+                    int marathonYPos = 50.0f;
+                    int marathonYOffset = 10.0f;
+                    char* planetInitials[] = { "CO", "ME", "FO", "SX", "TI", "BO", "V1", "KA",
+                                               "SO", "MA", "SY", "AQ", "ZO", "SZ", "A6", "V2" };
+                    int o;
+                    int scoresTotal = 0;
+                    for (o = 0; o < ARRAY_COUNT(gMarathonScores); o++) {
+                        Graphics_DisplaySmallText(OTRGetDimensionFromLeftEdgeOverride(5.0f),
+                                                  marathonYPos + (marathonYOffset * o), 1.0f, 1.0f, planetInitials[o]);
+                        Graphics_DisplaySmallNumber(OTRGetDimensionFromLeftEdgeOverride(35.0f),
+                                                    marathonYPos + (marathonYOffset * o), gMarathonScores[o]);
+                        scoresTotal += gMarathonScores[o];
+                    }
+                    Graphics_DisplaySmallText(OTRGetDimensionFromLeftEdgeOverride(5.0f),
+                                              marathonYPos + (marathonYOffset * (o + 1)), 1.0f, 1.0f,
+                                              "TOTAL");
+                    Graphics_DisplaySmallNumber(OTRGetDimensionFromLeftEdgeOverride(51.0f),
+                                                marathonYPos + (marathonYOffset * (o + 1)),
+                                                scoresTotal);
+                }
                 HUD_MsgWindowBg_Draw2(x1 - 10.0f, y0 - 4.0f, 4.7f, 2.8f);
 
                 RCP_SetupDL(&gMasterDisp, SETUPDL_76_OPTIONAL);
