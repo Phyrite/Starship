@@ -21,6 +21,7 @@ All randomizer options are included in the new "randomization" tab in the F1 men
 * Engine color randomization
 * Expert mode randomization
 * Marathon mode, where you play through all 16 levels in one run!
+* Toggleable random Bill & Katt appearances!
 * A new laser tier that's red and infinitely upgradable!
 * Customize the amount of damage you take!
 * Enemy and event randomization...?
