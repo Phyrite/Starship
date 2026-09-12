@@ -1691,11 +1691,16 @@ void HUD_PauseScreen_Update(void) {
                     int o;
                     int scoresTotal = 0;
                     for (o = 0; o < ARRAY_COUNT(gMarathonScores); o++) {
+                        int levelScore;
+                        if (o < gMarathonProgress || o > gMarathonProgress)
+                            levelScore = gMarathonScores[o];
+                        else
+                            levelScore = gHitCount;
                         Graphics_DisplaySmallText(OTRGetDimensionFromLeftEdgeOverride(5.0f),
                                                   marathonYPos + (marathonYOffset * o), 1.0f, 1.0f, planetInitials[o]);
                         Graphics_DisplaySmallNumber(OTRGetDimensionFromLeftEdgeOverride(35.0f),
-                                                    marathonYPos + (marathonYOffset * o), gMarathonScores[o]);
-                        scoresTotal += gMarathonScores[o];
+                                                    marathonYPos + (marathonYOffset * o), levelScore);
+                        scoresTotal += levelScore;
                     }
                     Graphics_DisplaySmallText(OTRGetDimensionFromLeftEdgeOverride(5.0f),
                                               marathonYPos + (marathonYOffset * (o + 1)), 1.0f, 1.0f,

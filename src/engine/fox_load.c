@@ -107,6 +107,7 @@ u8 Load_SceneSetup(u8 sceneId, u8 sceneSetup) {
     
     switch (sceneId) {
         case SCENE_TITLE:
+            CVarSetInteger("gRandomizationEnabled", 1);
             changeScene = Load_SceneFiles(&sOvlmenu_Title[sceneSetup]);
             if (changeScene == true) {
                // Causes audio hang for a few seconds when going from the menu to the title
@@ -115,6 +116,7 @@ u8 Load_SceneSetup(u8 sceneId, u8 sceneSetup) {
             break;
         case SCENE_MENU:
             changeScene = Load_SceneFiles(&sOvlmenu_Option[sceneSetup]);
+            CVarSetInteger("gRandomizationEnabled", 1);
             break;
         case SCENE_MAP:
             changeScene = Load_SceneFiles(&sOvlmenu_Map[sceneSetup]);

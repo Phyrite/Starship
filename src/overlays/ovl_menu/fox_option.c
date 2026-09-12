@@ -1074,9 +1074,7 @@ void Option_MainMenu_Update(void) {
 
 void Option_MainMenu_Draw(void) {
     s32 i;
-
     Option_Menu_Push();
-
     for (i = 0; i < ARRAY_COUNT(sOptionCardList); i++) {
         if (sOptionCardList[i].drawFrame) {
             Option_DrawMenuCard(sOptionCardList[i].frame);
@@ -1100,6 +1098,10 @@ void Option_MainMenu_Draw(void) {
     }
 
     Option_CardLightning_Update();
+    gDPSetPrimColor(gMasterDisp++, 0, 0, 255, 255, 0, 255);
+    Graphics_DisplaySmallText(0, 15, 1.0f, 1.0f, "PRESS F1 TO ACCESS THE RANDOMIZATION MENU");
+    gDPSetPrimColor(gMasterDisp++, 0, 0, 255, 64, 64, 255);
+    Graphics_DisplaySmallText(0, 25, 0.7f, 0.7f, "!BE SURE TO RANDOMIZE WHAT YOU WANT BEFORE STARTING!");
 }
 
 void Option_Versus_Setup(void) {

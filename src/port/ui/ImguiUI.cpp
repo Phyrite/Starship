@@ -921,6 +921,13 @@ void DrawRandomizationMenu() {
     if (UIWidgets::BeginMenu("Randomization")) {
         UIWidgets::CVarCheckbox("Randomize Radio Dialogue", "gDialogueRando");
         UIWidgets::CVarCheckbox("Randomize Radio Portraits", "gPortraitRando");
+        if (CVarGetInteger("gPortraitRando", 0) == 1) {
+            ImGui::Dummy(ImVec2(22.0f, 0.0f));
+            ImGui::SameLine();
+            UIWidgets::CVarCheckbox("Level-Specific Portraits", "gLevelPortraits",
+                                    { .tooltip = "Makes each level have its own pool of portraits instead of every "
+                                                 "portrait being able to appear at any time." });
+        }
         UIWidgets::CVarCheckbox("Randomize Music", "gMusicRando");
         UIWidgets::Spacer(0);
         if (UIWidgets::BeginMenu("Stage Settings")) {
@@ -1014,7 +1021,7 @@ void GameMenuBar::DrawElement() {
 
         ImGui::SetCursorPosY(0.0f);
 
-        DrawRandomizationMenu();
+        if(CVarGetInteger("gRandomizationEnabled", 1) == 1) DrawRandomizationMenu();
 
         ImGui::SetCursorPosY(0.0f);
 

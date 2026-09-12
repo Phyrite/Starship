@@ -2092,7 +2092,7 @@ void Map_Prologue_Update(void) {
     static f32 D_menu_801B6934[] = {
         99.0f, 24, -90.0f, -150.0f, -208.0f, -276.0f,
     };
-
+    CVarSetInteger("gRandomizationEnabled", 0);
     switch (sMapSubState) {
         case 100:
             break;
