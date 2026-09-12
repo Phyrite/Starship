@@ -7,9 +7,9 @@ This randomizer for Starship, the unofficial PC port of Star Fox 64, includes va
 
 If you haven't already, install Starship [here](https://github.com/HarbourMasters/Starship) and use the guide in the readme there to set it up. Please note that you are required to provide a Star Fox 64 ROM of your own.
 
-Once you have Starship installed, grab the latest release. (Once one comes out, of course)
+Once you have Starship installed, grab the latest release of the randomizer
 
-Move the .exe to your Starship folder, and run it!
+Move StarshipRandomizer.exe to your Starship folder, and run it!
 
 # Randomization
 
@@ -20,11 +20,15 @@ All randomizer options are included in the new "randomization" tab in the F1 men
 * Music randomization
 * Engine color randomization
 * Expert mode randomization
-* Marathon mode, where you play through all 16 levels in one run!
 * Toggleable random Bill & Katt appearances!
-* A new laser tier that's red and infinitely upgradable!
+* A bit wonky enemy and event randomization
+
+# Non-Randomization-Related Extra Features
+
+* A new toggleable laser tier that's red and infinitely upgradable!
 * Customize the amount of damage you take!
-* Enemy and event randomization...?
+* Marathon mode, where you play through all 16 levels in one run!
+* 99 bomb cap (toggleable in cheats menu)
 * A new survival mode?
 
 # Special Thanks:

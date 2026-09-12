@@ -922,7 +922,7 @@ void DrawRandomizationMenu() {
         UIWidgets::CVarCheckbox("Randomize Radio Dialogue", "gDialogueRando");
         UIWidgets::CVarCheckbox("Randomize Radio Portraits", "gPortraitRando");
         if (CVarGetInteger("gPortraitRando", 0) == 1) {
-            ImGui::Dummy(ImVec2(22.0f, 0.0f));
+            ImGui::Dummy(ImVec2(20.0f, 0.0f));
             ImGui::SameLine();
             UIWidgets::CVarCheckbox("Level-Specific Portraits", "gLevelPortraits",
                                     { .tooltip = "Makes each level have its own pool of portraits instead of every "
@@ -934,30 +934,26 @@ void DrawRandomizationMenu() {
             if (UIWidgets::CVarCombobox(
                     "Stage Order", "stages.Selection", stageRandoOptions,
                     {
-                        .tooltip = "Either randomize the order of levels/planets in the game, or play normally.\n- If randomization is on, Area 6/Bolse and Venom are guaranteed to be the penultimate and final levels respectively.\n- If no repeats is selected, the randomizer will attempt to avoid picking the same level twice on a run.\n- Marathon will have you play through every level in the game, in a set order. !! BE SURE TO ACTIVATE THIS MODE BEFORE STARTING A GAME IF YOU INTEND TO PLAY WITH IT !!",
+                        .tooltip = "Either randomize the order of levels/planets in the game, or play normally.\n- If randomization is on, Area 6/Bolse and Venom are guaranteed to be the penultimate and final levels respectively.\n- If no repeats is selected, the randomizer will attempt to avoid picking the same level twice on a run.\n- Marathon will have you play through every level in the game, in a set order. Your scores in every level will be display on the left in the pause screen.",
                         .defaultIndex = 0,
                     })) {
                 switch (CVarGetInteger("stages.Selection", 0)) {
                     case 0:
-                        printf("stages are normal\n");
                         CVarSetInteger("gStageRando", 0);
                         CVarSetInteger("gAvoidRepeats", 0);
                         CVarSetInteger("gMarathon", 0);
                         break;
                     case 1:
-                        printf("stages are randomized\n");
                         CVarSetInteger("gStageRando", 1);
                         CVarSetInteger("gAvoidRepeats", 0);
                         CVarSetInteger("gMarathon", 0);
                         break;
                     case 2:
-                        printf("stages are randomized without repeats\n");
                         CVarSetInteger("gAvoidRepeats", 1);
                         CVarSetInteger("gStageRando", 1);
                         CVarSetInteger("gMarathon", 0);
                         break;
                     case 3:
-                        printf("marathon mode activated\n");
                         CVarSetInteger("gAvoidRepeats", 0);
                         CVarSetInteger("gStageRando", 0);
                         CVarSetInteger("gMarathon", 1);

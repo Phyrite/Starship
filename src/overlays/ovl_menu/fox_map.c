@@ -4047,12 +4047,12 @@ void Map_LevelStart_Update(void) {
                 case 14:
                     gCurrentLevel = LEVEL_AREA_6;
                     break;
-                case 15:
-                    gCurrentLevel = LEVEL_VENOM_2;
-                    break;
                 default:
                     gCurrentLevel = LEVEL_CORNERIA;
                     gMarathonProgress = 0;
+                    for (int i = 0; i < ARRAY_COUNT(gMarathonScores); i++) {
+                        gMarathonScores[i] = 0;
+                    }
                     break;
                 }
                 sCurrentPlanetId = Map_GetPlanetId(gCurrentLevel);
